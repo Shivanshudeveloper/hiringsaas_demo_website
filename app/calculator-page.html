@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ActiF - CNSS Salary Calculator</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate your Moroccan salary, CNSS contributions, and tax deductions with ActiF's free CNSS Salary Calculator. Get accurate net salary estimates.">
+    <meta name="keywords" content="CNSS calculator, Morocco salary calculator, IGR calculator, net salary calculator, Moroccan tax calculator, CNSS contributions, ActiF tools">
+    <meta name="author" content="ActiF">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="ActiF - CNSS Salary Calculator">
+    <meta property="og:description" content="Calculate your Moroccan salary, CNSS contributions, and tax deductions with our free calculator.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://actif.com/calculator.html">
+    <meta property="og:image" content="https://actif.com/images/calculator-preview.jpg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ActiF - CNSS Salary Calculator">
+    <meta name="twitter:description" content="Calculate your Moroccan salary, CNSS contributions, and tax deductions with our free calculator.">
+    <meta name="twitter:image" content="https://actif.com/images/calculator-twitter.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://actif.com/favicon.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00B4A4;
+            --primary-dark: #009089;
+            --primary-light: #5CDED1;
+            --secondary: #2A4365;
+            --secondary-light: #4A6FA5;
+            --light: #F8FAFB;
+            --dark: #1A202C;
+            --gray: #718096;
+            --success: #38A169;
+            --warning: #DD6B20;
+            --danger: #E53E3E;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            background-color: #F5F5F5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand img {
+            height: 80px;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark);
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-link.active {
+            color: var(--primary);
+        }
+        
+        .nav-btn {
+            border-radius: 6px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary-light);
+            border-color: var(--secondary-light);
+        }
+        
+        /* Calculator Specific Styles */
+        .calculator-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        .calculator-title {
+            text-align: center;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .page-caption {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .input-section, .results-section {
+            margin-bottom: 40px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input[type="number"]:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 180, 164, 0.1);
+        }
+        
+        .helper-text {
+            font-size: 0.85em;
+            color: var(--gray);
+            margin-top: 6px;
+        }
+        
+        .seniority-info {
+            display: flex;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: rgba(0, 180, 164, 0.1);
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+        
+        .seniority-info div {
+            margin-right: 20px;
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .button-container button {
+            flex: 1;
+            padding: 14px;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .download-btn {
+            background-color: var(--success);
+            border-color: var(--success);
+        }
+        
+        .download-btn:hover {
+            background-color: #2E8B57;
+            border-color: #2E8B57;
+        }
+        
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light);
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .result-table th, .result-table td {
+            padding: 15px;
+            border: 1px solid #eee;
+            text-align: left;
+        }
+        
+        .result-table th {
+            background-color: var(--primary-light);
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .result-row {
+            background-color: #fff;
+            transition: background-color 0.2s;
+        }
+        
+        .result-row:hover {
+            background-color: #fafafa;
+        }
+        
+        .result-row:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .total-row {
+            font-weight: 600;
+            background-color: rgba(42, 67, 101, 0.1) !important;
+        }
+        
+        .currency::after {
+            content: " MAD";
+            font-size: 0.85em;
+            color: var(--gray);
+        }
+        
+        .explanation-section {
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 40px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .explanation-section h2 {
+            color: var(--secondary);
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+            margin-top: 0;
+            font-weight: 600;
+        }
+        
+        .explanation-item {
+            margin-bottom: 20px;
+        }
+        
+        .explanation-item h3 {
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .explanation-item p {
+            margin-top: 0;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 80px 0 30px;
+            margin-top: 50px;
+        }
+        
+        .footer-logo img {
+            height: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+        
+        .footer h5 {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .social-links {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        
+        .social-links li {
+            margin-right: 15px;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            margin-top: 50px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        #gross-salary-display {
+            background-color: var(--primary-light);
+            color: var(--dark);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 991.98px) {
+            .calculator-container {
+                margin: 20px;
+            }
+            
+            .seniority-info {
+                flex-direction: column;
+            }
+            
+            .seniority-info div {
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+        }
+        
+        @media (max-width: 767.98px) {
+            .button-container {
+                flex-direction: column;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .calculator-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "ActiF CNSS Salary Calculator",
+      "url": "https://actif.com/calculator.html",
+      "description": "Calculate your Moroccan salary, CNSS contributions, and tax deductions with ActiF's free CNSS Salary Calculator.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "MAD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "ActiF",
+        "url": "https://actif.com"
+      }
+    }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="./assets/logo.png" width="80px" height="80px" />
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+        </div>
+    </nav>
+    
+    <!-- Calculator Container -->
+    <div class="calculator-container">
+        <h1 class="calculator-title">CNSS Salary Calculator</h1>
+        <p class="page-caption">Calculate your net salary after tax and social security deductions in Morocco</p>
+        
+        <div class="input-section">
+            <h2 class="section-title">Salary Components</h2>
+            <div class="input-group">
+                <label for="base-salary">Base Salary</label>
+                <input type="number" id="base-salary" min="0" step="100" value="6400">
+                <div class="helper-text">Enter monthly base salary</div>
+            </div>
+            
+            <div class="input-group">
+                <label for="seniority-days">Seniority Allowance</label>
+                <input type="number" id="seniority-days" min="0" value="900">
+                <div class="helper-text">Enter accumulative days of work in the company</div>
+                <div class="seniority-info" id="seniority-info"></div>
+            </div>
+            
+            <div class="input-group">
+                <label for="meal-allowance">Meal Allowance</label>
+                <input type="number" id="meal-allowance" min="0" value="780">
+                <div class="helper-text">34 MAD/working day & tax-free up to 884 MAD/month</div>
+            </div>
+            
+            <div class="input-group">
+                <label for="transport-type">Transport Allowance</label>
+                <select id="transport-type">
+                    <option value="urban">Urban (500 MAD)</option>
+                    <option value="rural">Rural (750 MAD)</option>
+                </select>
+                <div class="helper-text">If workplace is >2 km from residence and no company transport is provided, tax-free amount of 500 MAD for urban & 750 MAD allowance per month are granted for work location</div>
+            </div>
+            
+            <div class="input-group">
+                <label for="representation-allowance">Representation Allowance</label>
+                <input type="number" id="representation-allowance" readonly>
+                <div class="helper-text">10% of base salary is maximum as tax-free allowance for upper management</div>
+            </div>
+            
+            <div class="input-group">
+                <label for="travel-bonus">Travel Bonus</label>
+                <input type="number" id="travel-bonus" min="0" value="1500">
+                <div class="helper-text">1500 MAD a month for regular travelling employees</div>
+            </div>
+            
+            <div class="input-group">
+                <label for="prof-expenses-rate">Professional Expenses Rate (%)</label>
+                <input type="number" id="prof-expenses-rate" min="0" max="100" value="25">
+                <div class="helper-text">Professional expenses deduction applied to gross base salary (max 2,500 MAD/month). This reduces your taxable income for IGR calculation.</div>
+            </div>
+            
+            <div class="button-container">
+                <button id="calculate-btn" class="btn btn-primary">Calculate Gross Salary & Deductions</button>
+                <button id="download-btn" class="btn btn-success download-btn">Download Results</button>
+            </div>
+        </div>
+        
+        <div class="results-section">
+            <h2 class="section-title">Calculation Results</h2>
+            
+            <div id="gross-salary-display">
+                Total Gross Salary: <span id="gross-salary-value" class="currency">0.00</span>
+            </div>
+            
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount (MAD)</th>
+                    </tr>
+                </thead>
+                <tbody id="results-body">
+                    <!-- Results will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="explanation-section">
+            <h2>CNSS Calculator Explanation</h2>
+            
+            <div class="explanation-item">
+                <h3>Base Salary</h3>
+                <p>The monthly base salary as specified in the employment contract.</p>
+            </div>
+            
+            <div class="explanation-item">
+                <h3>Seniority Allowance</h3>
+                <p>Calculated based on days worked in the company. The rate increases with seniority:
+                <br>• 0-2 years: 0%
+                <br>• 2-5 years: 5%
+                <br>• 5-12 years: 10%
+                <br>• 12-20 years: 15%
+                <br>• 20+ years: 20%</p>
+            </div>
+            
+            <div class="explanation-item">
+                <h3>Allowances</h3>
+                <p><strong>Meal Allowance:</strong> Daily allowance for meals, tax-free up to 884 MAD/month.
+                <br><strong>Transport Allowance:</strong> Available if workplace is more than 2 km from residence and no company transport is provided.
+                <br><strong>Representation Allowance:</strong> For upper management positions, max 10% of base salary.
+                <br><strong>Travel Bonus:</strong> Additional allowance for employees who regularly travel for work.</p>
+            </div>
+            
+            <div class="explanation-item">
+                <h3>Professional Expenses</h3>
+                <p>This is a tax relief mechanism that reduces your taxable income. The standard rate is 25% of gross salary base, with a maximum of 2,500 MAD per month. This amount is deducted from your salary before calculating IGR (income tax), effectively reducing your tax burden. You can adjust this rate if your specific situation differs.</p>
+            </div>
+            
+            <div class="explanation-item">
+                <h3>Deductions</h3>
+                <p><strong>CNSS (Social Security):</strong> 4.48% of salary base (base + seniority, capped at 6,000 MAD).
+                <br><strong>Health Insurance (AMO):</strong> 2.26% of the base salary (not including seniority bonus).
+                <br><strong>IGR (Income Tax):</strong> Progressive tax rates applied to taxable salary (salary base minus deductions).</p>
+            </div>
+            
+            <div class="explanation-item">
+                <h3>IGR Tax Brackets</h3>
+                <p>• 0 - 3,333 MAD: 0%
+                <br>• 3,333 - 5,000 MAD: 10% (minus 333.33)
+                <br>• 5,000 - 6,667 MAD: 20% (minus 833.33)
+                <br>• 6,667 - 8,333 MAD: 30% (minus 1,500)
+                <br>• 8,333 - 15,000 MAD: 34% (minus 1,833.33)
+                <br>• Above 15,000 MAD: 37% (minus 2,283.33)</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <div class="footer-logo mb-4">
+                        <span style="font-weight: 700; font-size: 2rem; color: var(--primary);">Acti<span style="color: white;">F</span></span>
+                    </div>
+                    
+                    <h5>Contact Us</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Innovation Street, Tech City</li>
+                        <li><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@actif.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright mt-4">
+                <p>&copy; 2025 ActiF. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Calculator Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get DOM elements
+            const baseSalaryInput = document.getElementById('base-salary');
+            const seniorityDaysInput = document.getElementById('seniority-days');
+            const mealAllowanceInput = document.getElementById('meal-allowance');
+            const transportTypeSelect = document.getElementById('transport-type');
+            const representationAllowanceInput = document.getElementById('representation-allowance');
+            const travelBonusInput = document.getElementById('travel-bonus');
+            const profExpensesRateInput = document.getElementById('prof-expenses-rate');
+            const calculateBtn = document.getElementById('calculate-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const resultsBody = document.getElementById('results-body');
+            const seniorityInfo = document.getElementById('seniority-info');
+            const grossSalaryValue = document.getElementById('gross-salary-value');
+            
+            // Set up event listeners
+            baseSalaryInput.addEventListener('input', updateRepresentationAllowance);
+            seniorityDaysInput.addEventListener('input', updateSeniorityDisplay);
+            calculateBtn.addEventListener('click', performCalculation);
+            downloadBtn.addEventListener('click', downloadCSV);
+            
+            // Initial setup
+            updateRepresentationAllowance();
+            updateSeniorityDisplay();
+            performCalculation();
+            
+            // Function to update the representation allowance (10% of base salary)
+            function updateRepresentationAllowance() {
+                const baseValue = parseFloat(baseSalaryInput.value) || 0;
+                const repValue = Math.round(baseValue * 0.1);
+                representationAllowanceInput.value = repValue;
+            }
+            
+            // Function to update the seniority information display
+            function updateSeniorityDisplay() {
+                const dayCount = parseFloat(seniorityDaysInput.value) || 0;
+                const yearCount = dayCount / 365;
+                
+                let rateValue = 0;
+                if (yearCount >= 2 && yearCount < 5) {
+                    rateValue = 5;
+                } else if (yearCount >= 5 && yearCount < 12) {
+                    rateValue = 10;
+                } else if (yearCount >= 12 && yearCount < 20) {
+                    rateValue = 15;
+                } else if (yearCount >= 20) {
+                    rateValue = 20;
+                }
+                
+                seniorityInfo.innerHTML = `
+                    <div><strong>Days:</strong> ${dayCount.toFixed(0)}</div>
+                    <div><strong>Years:</strong> ${yearCount.toFixed(2)}</div>
+                    <div><strong>Rate:</strong> ${rateValue}%</div>
+                `;
+                
+                // Update representation allowance in case base salary changed
+                updateRepresentationAllowance();
+            }
+            
+            // Function to perform all salary calculations
+            function performCalculation() {
+                // Get input values
+                const baseValue = parseFloat(baseSalaryInput.value) || 0;
+                const dayCount = parseFloat(seniorityDaysInput.value) || 0;
+                const mealValue = parseFloat(mealAllowanceInput.value) || 0;
+                const repValue = parseFloat(representationAllowanceInput.value) || 0;
+                const travelValue = parseFloat(travelBonusInput.value) || 0;
+                
+                // Get transport allowance based on type
+                let transportValue = 500; // Default urban
+                if (transportTypeSelect.value === 'rural') {
+                    transportValue = 750;
+                }
+                
+                // Calculate seniority rate and bonus
+                const yearCount = dayCount / 365;
+                let seniorityRateDecimal = 0;
+                
+                if (yearCount >= 2 && yearCount < 5) {
+                    seniorityRateDecimal = 0.05; // 5%
+                } else if (yearCount >= 5 && yearCount < 12) {
+                    seniorityRateDecimal = 0.1; // 10%
+                } else if (yearCount >= 12 && yearCount < 20) {
+                    seniorityRateDecimal = 0.15; // 15%
+                } else if (yearCount >= 20) {
+                    seniorityRateDecimal = 0.2; // 20%
+                }
+                
+                // Calculate seniority bonus with precise rounding
+                const seniorityBonusValue = Math.round(baseValue * seniorityRateDecimal * 100) / 100;
+                
+                // Calculate salary base (base + seniority)
+                const salaryBaseValue = baseValue + seniorityBonusValue;
+                
+                // Calculate total gross salary
+                const grossSalaryTotal = Math.round((baseValue + seniorityBonusValue + mealValue + 
+                                        transportValue + repValue + travelValue) * 100) / 100;
+                
+                // Update gross salary display
+                grossSalaryValue.textContent = grossSalaryTotal.toFixed(2);
+                
+                // Calculate CNSS contribution
+                const cnssBaseValue = Math.min(salaryBaseValue, 6000);
+                const cnssValue = Math.round(cnssBaseValue * 0.0448 * 100) / 100;
+                
+                // Calculate health insurance (2.26% of base + seniority)
+                const healthInsuranceBase = cnssBaseValue === 6000 ? baseValue : salaryBaseValue;
+                const healthInsuranceValue = Math.round(healthInsuranceBase * 0.0226 * 100) / 100;
+                
+                // Calculate professional expenses (35% if ≤6500, else 25%, capped at 2916.67)
+                const profExpensesRate = salaryBaseValue <= 6500 ? 35 : 25;
+                const profExpensesValue = Math.min(
+                    Math.round(salaryBaseValue * (profExpensesRate / 100) * 100) / 100,
+                    2916.67
+                );
+                
+                // Calculate taxable salary
+                const taxableSalaryValue = Math.round((salaryBaseValue - cnssValue - 
+                                            profExpensesValue - healthInsuranceValue) * 100) / 100;
+                
+                // Calculate IGR tax
+                let igrValue = 0;
+                
+                if (taxableSalaryValue >= 15000) {
+                    igrValue = taxableSalaryValue * 0.37 - 2283.33;
+                } else if (taxableSalaryValue >= 8333) {
+                    igrValue = taxableSalaryValue * 0.34 - 1833.33;
+                } else if (taxableSalaryValue >= 6667) {
+                    igrValue = taxableSalaryValue * 0.3 - 1500;
+                } else if (taxableSalaryValue >= 5000) {
+                    igrValue = taxableSalaryValue * 0.2 - 833.33;
+                } else if (taxableSalaryValue >= 3333) {
+                    igrValue = taxableSalaryValue * 0.1 - 333.33;
+                }
+                
+                // Make sure IGR is not negative
+                igrValue = Math.max(0, Math.round(igrValue * 100) / 100);
+                
+                // Calculate total deductions
+                const totalDeductionsValue = Math.round((cnssValue + healthInsuranceValue + igrValue) * 100) / 100;
+                
+                // Calculate net payable
+                const netPayableValue = Math.round((grossSalaryTotal - totalDeductionsValue) * 100) / 100;
+                
+                // Display all calculation results
+                resultsBody.innerHTML = `
+                    <tr class="result-row">
+                        <td colspan="2"><strong>Deductions</strong></td>
+                    </tr>
+                    <tr class="result-row">
+                        <td>CNSS Contribution (Employee 4.48%)</td>
+                        <td class="currency">${cnssValue.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row">
+                        <td>Professional Expenses (${profExpensesRate}%)</td>
+                        <td class="currency">${profExpensesValue.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row">
+                        <td>Health Insurance (Employee 2.26%)</td>
+                        <td class="currency">${healthInsuranceValue.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row">
+                        <td>Gross Taxable Salary</td>
+                        <td class="currency">${taxableSalaryValue.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row">
+                        <td>IGR Income Tax</td>
+                        <td class="currency">${igrValue.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row total-row">
+                        <td>Total Deductions</td>
+                        <td class="currency">${totalDeductionsValue.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row total-row">
+                        <td><strong>Net Payable</strong></td>
+                        <td class="currency"><strong>${netPayableValue.toFixed(2)}</strong></td>
+                    </tr>
+                `;
+            }
+            
+            // Function to generate and download results as CSV
+            function downloadCSV() {
+                // Get input values
+                const baseValue = parseFloat(baseSalaryInput.value) || 0;
+                const dayCount = parseFloat(seniorityDaysInput.value) || 0;
+                const mealValue = parseFloat(mealAllowanceInput.value) || 0;
+                const repValue = parseFloat(representationAllowanceInput.value) || 0;
+                const travelValue = parseFloat(travelBonusInput.value) || 0;
+                
+                // Get transport allowance based on type
+                let transportValue = 500; // Default urban
+                let transportTypeText = "Urban";
+                if (transportTypeSelect.value === 'rural') {
+                    transportValue = 750;
+                    transportTypeText = "Rural";
+                }
+                
+                // Calculate seniority rate and bonus
+                const yearCount = dayCount / 365;
+                let seniorityRatePercent = 0;
+                
+                if (yearCount >= 2 && yearCount < 5) {
+                    seniorityRatePercent = 5;
+                } else if (yearCount >= 5 && yearCount < 12) {
+                    seniorityRatePercent = 10;
+                } else if (yearCount >= 12 && yearCount < 20) {
+                    seniorityRatePercent = 15;
+                } else if (yearCount >= 20) {
+                    seniorityRatePercent = 20;
+                }
+                
+                const seniorityBonusValue = Math.round(baseValue * (seniorityRatePercent/100) * 100) / 100;
+                const salaryBaseValue = baseValue + seniorityBonusValue;
+                
+                // Calculate total gross salary
+                const grossSalaryTotal = Math.round((baseValue + seniorityBonusValue + mealValue + 
+                                        transportValue + repValue + travelValue) * 100) / 100;
+                
+                // Calculate CNSS contribution
+                const cnssBaseValue = Math.min(salaryBaseValue, 6000);
+                const cnssValue = Math.round(cnssBaseValue * 0.0448 * 100) / 100;
+                
+                // Calculate health insurance
+                const healthInsuranceValue = Math.round((baseValue + seniorityBonusValue) * 0.0226 * 100) / 100;
+                
+                // Calculate professional expenses
+                const profExpensesRate = salaryBaseValue <= 6500 ? 35 : 25;
+                const profExpensesValue = Math.min(
+                    Math.round(salaryBaseValue * (profExpensesRate / 100) * 100) / 100,
+                    2916.67
+                );
+                
+                // Calculate taxable salary
+                const taxableSalaryValue = Math.round((salaryBaseValue - cnssValue - 
+                                            profExpensesValue - healthInsuranceValue) * 100) / 100;
+                
+                // Calculate IGR tax
+                let igrValue = 0;
+                
+                if (taxableSalaryValue >= 15000) {
+                    igrValue = taxableSalaryValue * 0.37 - 2283.33;
+                } else if (taxableSalaryValue >= 8333) {
+                    igrValue = taxableSalaryValue * 0.34 - 1833.33;
+                } else if (taxableSalaryValue >= 6667) {
+                    igrValue = taxableSalaryValue * 0.3 - 1500;
+                } else if (taxableSalaryValue >= 5000) {
+                    igrValue = taxableSalaryValue * 0.2 - 833.33;
+                } else if (taxableSalaryValue >= 3333) {
+                    igrValue = taxableSalaryValue * 0.1 - 333.33;
+                }
+                
+                igrValue = Math.max(0, Math.round(igrValue * 100) / 100);
+                
+                // Calculate total deductions
+                const totalDeductionsValue = Math.round((cnssValue + healthInsuranceValue + igrValue) * 100) / 100;
+                
+                // Calculate net payable
+                const netPayableValue = Math.round((grossSalaryTotal - totalDeductionsValue) * 100) / 100;
+                
+                // Format date for filename
+                const now = new Date();
+                const dateStr = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+                
+                // Create CSV content
+                let csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += "CNSS Salary Calculation Results\n";
+                csvContent += `Date,${dateStr}\n\n`;
+                csvContent += "Salary Components,Amount (MAD)\n";
+                csvContent += `Base Salary,${baseValue.toFixed(2)}\n`;
+                csvContent += `Seniority Bonus (${seniorityRatePercent}%),${seniorityBonusValue.toFixed(2)}\n`;
+                csvContent += `Salary Base (Base + Seniority),${salaryBaseValue.toFixed(2)}\n`;
+                csvContent += `Meal Allowance,${mealValue.toFixed(2)}\n`;
+                csvContent += `Transport Allowance (${transportTypeText}),${transportValue.toFixed(2)}\n`;
+                csvContent += `Representation Allowance,${repValue.toFixed(2)}\n`;
+                csvContent += `Travel Bonus,${travelValue.toFixed(2)}\n`;
+                csvContent += `Total Gross Salary,${grossSalaryTotal.toFixed(2)}\n\n`;
+                
+                csvContent += "Deductions,Amount (MAD)\n";
+                csvContent += `CNSS Contribution (Employee 4.48%),${cnssValue.toFixed(2)}\n`;
+                csvContent += `Professional Expenses (${profExpensesRate}%),${profExpensesValue.toFixed(2)}\n`;
+                csvContent += `Health Insurance (Employee 2.26%),${healthInsuranceValue.toFixed(2)}\n`;
+                csvContent += `Gross Taxable Salary,${taxableSalaryValue.toFixed(2)}\n`;
+                csvContent += `IGR Income Tax,${igrValue.toFixed(2)}\n`;
+                csvContent += `Total Deductions,${totalDeductionsValue.toFixed(2)}\n`;
+                csvContent += `Net Payable,${netPayableValue.toFixed(2)}\n`;
+                
+                // Create download link
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", `CNSS_Calculation_${dateStr}.csv`);
+                document.body.appendChild(link);
+                
+                // Trigger download
+                link.click();
+                
+                // Clean up
+                document.body.removeChild(link);
+            }
+        });
+    </script>
+</body>
+</html>
