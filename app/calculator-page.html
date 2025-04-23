@@ -142,8 +142,30 @@
         .page-caption {
             text-align: center;
             color: var(--gray);
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             font-style: italic;
+        }
+        
+        .payroll-services {
+            text-align: center;
+            color: var(--secondary);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            background-color: rgba(0, 180, 164, 0.1);
+            padding: 15px;
+            border-radius: 6px;
+        }
+        
+        .scroll-link {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .scroll-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
         }
         
         .input-section, .results-section {
@@ -306,6 +328,15 @@
             margin-top: 0;
             color: var(--gray);
             line-height: 1.6;
+        }
+        
+        .explanation-item.allowances p, .explanation-item.deductions p {
+            line-height: 1.8; /* Increased line spacing as requested */
+        }
+        
+        /* Hide professional expenses field */
+        #prof-expenses-container {
+            display: none;
         }
         
         /* Footer */
@@ -489,20 +520,21 @@
     <!-- Calculator Container -->
     <div class="calculator-container">
         <h1 class="calculator-title">CNSS Salary Calculator</h1>
-        <p class="page-caption">Calculate your net salary after tax and social security deductions in Morocco</p>
+        <p class="page-caption">Calculate your net salary / earnings after all deductions (tax and social security contributions)</p>
+        <p class="payroll-services">Please check bottom of page for explanation on deductions and allowances.<br>We can do the most cost-effective payroll calculation for individuals and companies. We provide Payroll services. Please <a href="#contact" class="scroll-link">contact us</a> so we can discuss further.</p>
         
         <div class="input-section">
             <h2 class="section-title">Salary Components</h2>
             <div class="input-group">
                 <label for="base-salary">Base Salary</label>
                 <input type="number" id="base-salary" min="0" step="100" value="6400">
-                <div class="helper-text">Enter monthly base salary</div>
+                <div class="helper-text">Enter monthly base salary (your base salary + seniority + allowances will give your gross salary)</div>
             </div>
             
             <div class="input-group">
                 <label for="seniority-days">Seniority Allowance</label>
                 <input type="number" id="seniority-days" min="0" value="900">
-                <div class="helper-text">Enter accumulative days of work in the company</div>
+                <div class="helper-text">Working for over 2 yrs in a company rewards you with this allowance</div>
                 <div class="seniority-info" id="seniority-info"></div>
             </div>
             
@@ -515,6 +547,7 @@
             <div class="input-group">
                 <label for="transport-type">Transport Allowance</label>
                 <select id="transport-type">
+                    <option value="none">None</option>
                     <option value="urban">Urban (500 MAD)</option>
                     <option value="rural">Rural (750 MAD)</option>
                 </select>
@@ -522,9 +555,13 @@
             </div>
             
             <div class="input-group">
-                <label for="representation-allowance">Representation Allowance</label>
-                <input type="number" id="representation-allowance" readonly>
-                <div class="helper-text">10% of base salary is maximum as tax-free allowance for upper management</div>
+                <label for="representation-type">Representation Allowance</label>
+                <select id="representation-type">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+                <div class="helper-text">10% of base salary is maximum as tax-free allowance for upper management (CEO, director, head of dept...)</div>
+                <input type="hidden" id="representation-allowance" value="0">
             </div>
             
             <div class="input-group">
@@ -533,7 +570,8 @@
                 <div class="helper-text">1500 MAD a month for regular travelling employees</div>
             </div>
             
-            <div class="input-group">
+            <!-- Hidden Professional Expenses Rate field -->
+            <div class="input-group" id="prof-expenses-container">
                 <label for="prof-expenses-rate">Professional Expenses Rate (%)</label>
                 <input type="number" id="prof-expenses-rate" min="0" max="100" value="25">
                 <div class="helper-text">Professional expenses deduction applied to gross base salary (max 2,500 MAD/month). This reduces your taxable income for IGR calculation.</div>
@@ -566,7 +604,7 @@
         </div>
         
         <div class="explanation-section">
-            <h2>CNSS Calculator Explanation</h2>
+            <h2>CNSS Calculator Definitions & Explanations</h2>
             
             <div class="explanation-item">
                 <h3>Base Salary</h3>
@@ -583,7 +621,7 @@
                 <br>• 20+ years: 20%</p>
             </div>
             
-            <div class="explanation-item">
+            <div class="explanation-item allowances">
                 <h3>Allowances</h3>
                 <p><strong>Meal Allowance:</strong> Daily allowance for meals, tax-free up to 884 MAD/month.
                 <br><strong>Transport Allowance:</strong> Available if workplace is more than 2 km from residence and no company transport is provided.
@@ -591,12 +629,7 @@
                 <br><strong>Travel Bonus:</strong> Additional allowance for employees who regularly travel for work.</p>
             </div>
             
-            <div class="explanation-item">
-                <h3>Professional Expenses</h3>
-                <p>This is a tax relief mechanism that reduces your taxable income. The standard rate is 25% of gross salary base, with a maximum of 2,500 MAD per month. This amount is deducted from your salary before calculating IGR (income tax), effectively reducing your tax burden. You can adjust this rate if your specific situation differs.</p>
-            </div>
-            
-            <div class="explanation-item">
+            <div class="explanation-item deductions">
                 <h3>Deductions</h3>
                 <p><strong>CNSS (Social Security):</strong> 4.48% of salary base (base + seniority, capped at 6,000 MAD).
                 <br><strong>Health Insurance (AMO):</strong> 2.26% of the base salary (not including seniority bonus).
@@ -604,7 +637,7 @@
             </div>
             
             <div class="explanation-item">
-                <h3>IGR Tax Brackets</h3>
+                <h3>IGR Tax Brackets (Updated Jan 2025)</h3>
                 <p>• 0 - 3,333 MAD: 0%
                 <br>• 3,333 - 5,000 MAD: 10% (minus 333.33)
                 <br>• 5,000 - 6,667 MAD: 20% (minus 833.33)
@@ -651,6 +684,7 @@
             const seniorityDaysInput = document.getElementById('seniority-days');
             const mealAllowanceInput = document.getElementById('meal-allowance');
             const transportTypeSelect = document.getElementById('transport-type');
+            const representationTypeSelect = document.getElementById('representation-type');
             const representationAllowanceInput = document.getElementById('representation-allowance');
             const travelBonusInput = document.getElementById('travel-bonus');
             const profExpensesRateInput = document.getElementById('prof-expenses-rate');
@@ -663,6 +697,7 @@
             // Set up event listeners
             baseSalaryInput.addEventListener('input', updateRepresentationAllowance);
             seniorityDaysInput.addEventListener('input', updateSeniorityDisplay);
+            representationTypeSelect.addEventListener('change', updateRepresentationAllowance);
             calculateBtn.addEventListener('click', performCalculation);
             downloadBtn.addEventListener('click', downloadCSV);
             
@@ -671,10 +706,15 @@
             updateSeniorityDisplay();
             performCalculation();
             
-            // Function to update the representation allowance (10% of base salary)
+            // Function to update the representation allowance based on YES/NO selection
             function updateRepresentationAllowance() {
                 const baseValue = parseFloat(baseSalaryInput.value) || 0;
-                const repValue = Math.round(baseValue * 0.1);
+                let repValue = 0;
+                
+                if (representationTypeSelect.value === 'yes') {
+                    repValue = Math.round(baseValue * 0.1);
+                }
+                
                 representationAllowanceInput.value = repValue;
             }
             
@@ -714,8 +754,10 @@
                 const travelValue = parseFloat(travelBonusInput.value) || 0;
                 
                 // Get transport allowance based on type
-                let transportValue = 500; // Default urban
-                if (transportTypeSelect.value === 'rural') {
+                let transportValue = 0; // Default none
+                if (transportTypeSelect.value === 'urban') {
+                    transportValue = 500;
+                } else if (transportTypeSelect.value === 'rural') {
                     transportValue = 750;
                 }
                 
@@ -755,7 +797,7 @@
                 const healthInsuranceValue = Math.round(healthInsuranceBase * 0.0226 * 100) / 100;
                 
                 // Calculate professional expenses (35% if ≤6500, else 25%, capped at 2916.67)
-                const profExpensesRate = salaryBaseValue <= 6500 ? 35 : 25;
+                const profExpensesRate = parseFloat(profExpensesRateInput.value) || 25;
                 const profExpensesValue = Math.min(
                     Math.round(salaryBaseValue * (profExpensesRate / 100) * 100) / 100,
                     2916.67
@@ -789,7 +831,7 @@
                 // Calculate net payable
                 const netPayableValue = Math.round((grossSalaryTotal - totalDeductionsValue) * 100) / 100;
                 
-                // Display all calculation results
+                // Display all calculation results - removed Professional Expenses row
                 resultsBody.innerHTML = `
                     <tr class="result-row">
                         <td colspan="2"><strong>Deductions</strong></td>
@@ -797,10 +839,6 @@
                     <tr class="result-row">
                         <td>CNSS Contribution (Employee 4.48%)</td>
                         <td class="currency">${cnssValue.toFixed(2)}</td>
-                    </tr>
-                    <tr class="result-row">
-                        <td>Professional Expenses (${profExpensesRate}%)</td>
-                        <td class="currency">${profExpensesValue.toFixed(2)}</td>
                     </tr>
                     <tr class="result-row">
                         <td>Health Insurance (Employee 2.26%)</td>
@@ -835,9 +873,13 @@
                 const travelValue = parseFloat(travelBonusInput.value) || 0;
                 
                 // Get transport allowance based on type
-                let transportValue = 500; // Default urban
-                let transportTypeText = "Urban";
-                if (transportTypeSelect.value === 'rural') {
+                let transportValue = 0; // Default none
+                let transportTypeText = "None";
+                
+                if (transportTypeSelect.value === 'urban') {
+                    transportValue = 500;
+                    transportTypeText = "Urban";
+                } else if (transportTypeSelect.value === 'rural') {
                     transportValue = 750;
                     transportTypeText = "Rural";
                 }
@@ -871,7 +913,7 @@
                 const healthInsuranceValue = Math.round((baseValue + seniorityBonusValue) * 0.0226 * 100) / 100;
                 
                 // Calculate professional expenses
-                const profExpensesRate = salaryBaseValue <= 6500 ? 35 : 25;
+                const profExpensesRate = parseFloat(profExpensesRateInput.value) || 25;
                 const profExpensesValue = Math.min(
                     Math.round(salaryBaseValue * (profExpensesRate / 100) * 100) / 100,
                     2916.67
@@ -908,7 +950,7 @@
                 const now = new Date();
                 const dateStr = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
                 
-                // Create CSV content
+                // Create CSV content - removed Professional Expenses from CSV
                 let csvContent = "data:text/csv;charset=utf-8,";
                 csvContent += "CNSS Salary Calculation Results\n";
                 csvContent += `Date,${dateStr}\n\n`;
@@ -924,7 +966,6 @@
                 
                 csvContent += "Deductions,Amount (MAD)\n";
                 csvContent += `CNSS Contribution (Employee 4.48%),${cnssValue.toFixed(2)}\n`;
-                csvContent += `Professional Expenses (${profExpensesRate}%),${profExpensesValue.toFixed(2)}\n`;
                 csvContent += `Health Insurance (Employee 2.26%),${healthInsuranceValue.toFixed(2)}\n`;
                 csvContent += `Gross Taxable Salary,${taxableSalaryValue.toFixed(2)}\n`;
                 csvContent += `IGR Income Tax,${igrValue.toFixed(2)}\n`;
