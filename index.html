@@ -858,10 +858,13 @@
                     <h4>7. Changes to Terms</h4>
                     <p>ActiF reserves the right to modify these terms at any time. We will provide notice of significant changes by posting a notice on our website or by sending you an email.</p>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary return-to-form">Back to Form</button>
+                </div>
             </div>
         </div>
     </div>
-    
+
     <!-- Privacy Policy Modal -->
     <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
@@ -892,9 +895,13 @@
                     <h4>7. Changes to Privacy Policy</h4>
                     <p>We may update our Privacy Policy from time to time. We will notify you of significant changes by posting a notice on our website or by sending you an email.</p>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary return-to-form">Back to Form</button>
+                </div>
             </div>
         </div>
     </div>
+    
     
     <!-- Footer -->
     <footer class="footer" id="contact">
@@ -1194,6 +1201,69 @@
                 }, 5000);
             }
         })();
+    </script>
+
+    <!-- Modal Navigation Script -->
+    <script>
+        // Variable to track which form modal was open
+        let sourceModal = '';
+        
+        // When company or job seeker modals are shown, record which one is active
+        document.getElementById('companySignupModal').addEventListener('show.bs.modal', function () {
+            sourceModal = 'companySignupModal';
+        });
+        
+        document.getElementById('jobSeekerSignupModal').addEventListener('show.bs.modal', function () {
+            sourceModal = 'jobSeekerSignupModal';
+        });
+        
+        // Setup event listeners for terms and privacy links in both modals
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all terms and privacy links
+            const termsLinks = document.querySelectorAll('a[data-bs-target="#termsModal"]');
+            const privacyLinks = document.querySelectorAll('a[data-bs-target="#privacyModal"]');
+            
+            // Add click handlers to record source modal
+            termsLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Get the closest modal to this link (either company or job seeker modal)
+                    const modal = this.closest('.modal');
+                    if (modal) {
+                        sourceModal = modal.id;
+                    }
+                });
+            });
+            
+            privacyLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Get the closest modal to this link (either company or job seeker modal)
+                    const modal = this.closest('.modal');
+                    if (modal) {
+                        sourceModal = modal.id;
+                    }
+                });
+            });
+            
+            // Add click handlers for the "Back to Form" buttons
+            const backButtons = document.querySelectorAll('.return-to-form');
+            backButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Close the current modal (terms or privacy)
+                    const currentModal = this.closest('.modal');
+                    const currentModalInstance = bootstrap.Modal.getInstance(currentModal);
+                    currentModalInstance.hide();
+                    
+                    // After a short delay, reopen the source modal
+                    setTimeout(function() {
+                        if (sourceModal) {
+                            const modalToShow = document.getElementById(sourceModal);
+                            const modal = new bootstrap.Modal(modalToShow);
+                            modal.show();
+                        }
+                    }, 150); // Short delay to allow the current modal to close
+                });
+            });
+        });
     </script>
 </body>
 </html>
