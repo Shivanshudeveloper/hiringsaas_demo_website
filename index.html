@@ -128,7 +128,7 @@
         .hero {
             background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
             color: white;
-            padding: 60px 0 100px; /* Reduced padding at top from 120px to 60px */
+            padding: 0px 0 100px; /* Reduced padding at top from 120px to 60px */
             position: relative;
             overflow: hidden;
         }
@@ -603,6 +603,10 @@
     
     <!-- Micro Finance Section -->
     <section class="micro-finance" id="micro-finance">
+        <br />
+        <br />
+        <br />
+        <br />
         <div class="container">
             <div class="section-title">
                 <h2>Micro Finance</h2>
@@ -611,10 +615,16 @@
                 <p class="lead">An exciting Actif Project is launching here soon!</p>
             </div>
         </div>
+        <br />
+        <br />
     </section>
     
     <!-- CNSS Calculator Section -->
     <section class="cnss-calculator" id="cnss-calculator">
+        <br />
+        <br />
+        <br />
+        <br />
         <div class="container">
             <div class="section-title">
                 <h2>CNSS Calculator</h2>
@@ -629,6 +639,8 @@
                 </div>
             </div>
         </div>
+        <br />
+        <br />
     </section>
     
     <!-- CTA Section -->
@@ -763,6 +775,11 @@
                             <input type="tel" class="form-control" id="phoneNumber">
                         </div>
                         <div class="mb-3">
+                            <label for="uploadCsv" class="form-label">Upload CSV</label>
+                            <input type="file" class="form-control" id="uploadCsv" accept=".csv">
+                            <div class="form-text">Upload your resume data in CSV format (optional)</div>
+                        </div>
+                        <div class="mb-3">
                             <label for="jobField" class="form-label">Primary Job Field*</label>
                             <select class="form-select" id="jobField" required>
                                 <option value="" selected disabled>Select your field</option>
@@ -887,7 +904,7 @@
                     <ul class="footer-links list-unstyled">
                         <li><i class="fas fa-map-marker-alt me-2"></i> ELITE SQ. Qtr. SELOUANE, Bur. 30, Imm. 8, Bd Taib Naciri, Casablanca 20200</li>
                         <li><i class="fas fa-phone me-2"></i> <a href="https://wa.me/212688717565" target="_blank" class="text-decoration-none"><i class="fab fa-whatsapp me-1"></i> +212 688-717565</a></li>
-                        <li><i class="fas fa-envelope me-2"></i> marhaban@actifjobs.com</li>
+                        <li><i class="fas fa-envelope me-2"></i> <a href="mailto:marhaban@actifjobs.com" class="text-decoration-none">marhaban@actifjobs.com</a></li>
                         <li><a href="https://www.linkedin.com/company/actifjobs/?viewAsMember=true" target="_blank" class="text-decoration-none"><i class="fab fa-linkedin me-2"></i> Follow us on LinkedIn</a></li>
                     </ul>
                 </div>
@@ -898,6 +915,52 @@
             </div>
         </div>
     </footer>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-storage.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGpc3IFaTYM-3CQnF6YHdapasZBcpZrEo",
+            authDomain: "evencloud-26d32.firebaseapp.com",
+            databaseURL: "https://evencloud-26d32.firebaseio.com",
+            projectId: "evencloud-26d32",
+            storageBucket: "evencloud-26d32.appspot.com",
+            messagingSenderId: "599725599274",
+            appId: "1:599725599274:web:a8d4db6ece932a2ca1f153",
+            measurementId: "G-DR3E01N47Q"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const storage = getStorage(app);
+        
+        // Make storage available to other scripts
+        window.firebaseStorage = {
+            uploadFile: async (file, path) => {
+                try {
+                    // Create a storage reference
+                    const storageRef = ref(storage, path);
+                    
+                    // Upload the file
+                    const snapshot = await uploadBytes(storageRef, file);
+                    
+                    // Get the download URL
+                    const downloadURL = await getDownloadURL(snapshot.ref);
+                    
+                    return { success: true, url: downloadURL };
+                } catch (error) {
+                    console.error("Error uploading file:", error);
+                    return { success: false, error: error.message };
+                }
+            }
+        };
+    </script>
     
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -991,7 +1054,7 @@
             var jobSeekerForm = document.getElementById('jobSeekerSignupForm');
             
             // Add event listener for job seeker form submission
-            jobSeekerForm.addEventListener('submit', function(event) {
+            jobSeekerForm.addEventListener('submit', async function(event) {
                 if (!jobSeekerForm.checkValidity()) {
                     event.preventDefault();
                     event.stopPropagation();
@@ -1006,6 +1069,7 @@
                     const phoneNumber = document.getElementById('phoneNumber').value;
                     const jobField = document.getElementById('jobField').value;
                     const experienceLevel = document.getElementById('experienceLevel').value;
+                    const csvFile = document.getElementById('uploadCsv').files[0]; // Get the uploaded CSV file
                     
                     // Show loading indicator
                     const submitBtn = jobSeekerForm.querySelector('button[type="submit"]');
@@ -1013,34 +1077,57 @@
                     submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...';
                     submitBtn.disabled = true;
                     
-                    // Submit to SheetDB - using job seeker endpoint
-                    fetch('https://sheetdb.io/api/v1/qk5neavvn63mk', {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            data: [
-                                {
-                                    'First Name': firstName,
-                                    'Last Name': lastName,
-                                    'Email Address': emailAddress,
-                                    'Phone Number': phoneNumber,
-                                    'Primary Job Field': jobField,
-                                    'Experience Level': experienceLevel
-                                }
-                            ]
-                        })
-                    })
-                    .then(response => {
+                    try {
+                        // Variable to store the CSV URL
+                        let csvDownloadUrl = null;
+                        
+                        // Upload CSV to Firebase Storage if a file is selected
+                        if (csvFile) {
+                            // Create a unique file path using the email and timestamp
+                            const timestamp = new Date().getTime();
+                            const filePath = `resumes/${emailAddress.replace(/[^a-zA-Z0-9]/g, '_')}_${timestamp}.csv`;
+                            
+                            // Upload the file to Firebase Storage
+                            const uploadResult = await window.firebaseStorage.uploadFile(csvFile, filePath);
+                            
+                            if (uploadResult.success) {
+                                csvDownloadUrl = uploadResult.url;
+                                console.log('CSV uploaded successfully:', csvDownloadUrl);
+                            } else {
+                                throw new Error(`Failed to upload CSV: ${uploadResult.error}`);
+                            }
+                        }
+                        
+                        // Prepare data for SheetDB submission
+                        const formData = {
+                            'First Name': firstName,
+                            'Last Name': lastName,
+                            'Email Address': emailAddress,
+                            'Phone Number': phoneNumber,
+                            'Primary Job Field': jobField,
+                            'Experience Level': experienceLevel,
+                            'CSV Upload': csvDownloadUrl || '' // Add the CSV URL to the data
+                        };
+                        
+                        // Submit to SheetDB
+                        const response = await fetch('https://sheetdb.io/api/v1/qk5neavvn63mk', {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                data: [formData]
+                            })
+                        });
+                        
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
                         }
-                        return response.json();
-                    })
-                    .then(data => {
+                        
+                        const data = await response.json();
                         console.log('Success:', data);
+                        
                         // Reset form and show success message
                         jobSeekerForm.reset();
                         jobSeekerForm.classList.remove('was-validated');
@@ -1052,17 +1139,15 @@
                         
                         // Show success message
                         showSuccessAlert('Thank you for your interest! Your job seeker profile has been successfully submitted. We\'ll contact you soon with early access information.');
-                    })
-                    .catch(error => {
+                    } catch (error) {
                         console.error('Error:', error);
                         // Show error message
                         showErrorAlert('There was an issue submitting your information. Please try again later.');
-                    })
-                    .finally(() => {
+                    } finally {
                         // Reset button state
                         submitBtn.innerHTML = originalBtnText;
                         submitBtn.disabled = false;
-                    });
+                    }
                 }
                 
                 jobSeekerForm.classList.add('was-validated');
