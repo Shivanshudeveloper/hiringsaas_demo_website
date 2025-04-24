@@ -1,85 +1,1114 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ActiF</title>
-  
-  <!-- SEO and Social Meta Tags -->
-  <meta name="description" content="Vous ne trouvez pas simplement un emploi, vous construisez votre carrière !" />
-  <meta name="keywords" content="emploi, carrière, travail, opportunité, ActiF" />
-  <meta name="author" content="ActiF" />
-  
-  <!-- Open Graph Meta Tags -->
-  <meta property="og:locale" content="fr_FR" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="ActiF" />
-  <meta property="og:description" content="Vous ne trouvez pas simplement un emploi, vous construisez votre carrière !" />
-  <meta property="og:url" content="http://example.com" />
-  <meta property="og:site_name" content="ActiF" />
-  
-  <!-- Twitter Meta Tags -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ActiF" />
-  <meta name="twitter:description" content="Vous ne trouvez pas simplement un emploi, vous construisez votre carrière !" />
-  
-  <!-- Bootstrap CDN -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  
-  <style>
-    /* Overall page style */
-    body {
-      background-color: #f8f9fa;
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    /* Center content container */
-    .content {
-      text-align: center;
-    }
-    /* Logo styling with pulse animation */
-    .logo {
-      width: 200px; /* Adjust size as needed */
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 0 #00B4A4);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ActiF - Intelligent Job Matching Platform</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="ActiF connects companies with ideal candidates using AI-powered matching. Post jobs, find employees, or discover your perfect career opportunity.">
+    <meta name="keywords" content="job platform, recruitment, AI job matching, career, employment, hiring platform">
+    <meta name="author" content="ActiF">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="ActiF - Intelligent Job Matching Platform">
+    <meta property="og:description" content="Connect with ideal candidates or find your perfect job using AI-powered matching technology.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://actif.com">
+    <meta property="og:image" content="https://actif.com/images/og-image.jpg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ActiF - Intelligent Job Matching Platform">
+    <meta name="twitter:description" content="Connect with ideal candidates or find your perfect job using AI-powered matching technology.">
+    <meta name="twitter:image" content="https://actif.com/images/twitter-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://actif.com/favicon.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00B4A4;
+            --primary-dark: #009089;
+            --primary-light: #5CDED1;
+            --secondary: #2A4365;
+            --secondary-light: #4A6FA5;
+            --light: #F8FAFB;
+            --dark: #1A202C;
+            --gray: #718096;
+            --success: #38A169;
+            --warning: #DD6B20;
+            --danger: #E53E3E;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            background-color: #FFFFFF;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand img {
+            height: 80px;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark);
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-link.active {
+            color: var(--primary);
+        }
+        
+        .nav-btn {
+            border-radius: 6px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary-light);
+            border-color: var(--secondary-light);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            color: white;
+            padding: 60px 0 100px; /* Reduced padding at top from 120px to 60px */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: white;
+            clip-path: polygon(0 50%, 100% 0, 100% 100%, 0% 100%);
+        }
+        
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .hero-image {
+            max-width: 100%;
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 120px 0 100px; /* Increased top padding */
+            margin-top: -20px; /* Negative margin to compensate */
+            background-color: var(--light);
+        }
+        
+        .section-title {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            height: 100%;
+            min-height: 220px; /* Fixed height for uniform appearance */
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .job-seeker-feature {
+            background-color: rgba(92, 222, 209, 0.1); /* Light green background for job seeker cards */
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(0, 180, 164, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-icon i {
+            font-size: 30px;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+            margin-bottom: 0;
+        }
+        
+        .features .col-md-6 {
+            padding: 15px;
+        }
+        
+        /* CNSS Calculator Section */
+        .cnss-calculator {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        /* Micro Finance Section */
+        .micro-finance {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+                
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 80px 0 30px;
+        }
+        
+        .footer-logo img {
+            height: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+        
+        .footer h5 {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .social-links {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        
+        .social-links li {
+            margin-right: 15px;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            margin-top: 50px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 991.98px) {
+            .hero {
+                padding: 80px 0 60px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .cta h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 767.98px) {
+            .hero {
+                padding: 60px 0 60px;
+                text-align: center;
+            }
+            
+            .hero-image {
+                margin-top: 40px;
+            }
+            
+            .footer {
+                text-align: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "ActiF",
+      "url": "https://actif.com",
+      "logo": "https://actif.com/images/logo.png",
+      "description": "ActiF connects companies with ideal candidates using AI-powered matching. Post jobs, find employees, or discover your perfect career opportunity.",
+      "sameAs": [
+        "https://facebook.com/actif",
+        "https://twitter.com/actif",
+        "https://linkedin.com/company/actifjobs",
+        "https://instagram.com/actif_platform"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ELITE SQ. Qtr. SELOUANE, Bur. 30, Imm. 8, Bd Taib Naciri",
+        "addressLocality": "Casablanca",
+        "postalCode": "20200",
+        "addressCountry": "MA"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+212-688-717565",
+        "contactType": "customer service",
+        "availableLanguage": ["English", "French", "Arabic"]
       }
-      50% {
-        transform: scale(1.1);
-        filter: drop-shadow(0 0 10px #00B4A4);
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://actif.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://actif.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
       }
-      100% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 0 #00B4A4);
-      }
     }
-    /* Tagline styling with fade-in effect */
-    .tagline {
-      margin-top: 20px;
-      font-size: 1.25rem;
-      color: #343a40;
-      animation: fadeIn 2s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-  </style>
+    </script>
 </head>
 <body>
-  <div class="content">
-    <!-- Centered logo with pulse effect -->
-    <img src="logo.png" alt="Logo" class="logo" />
-    <!-- Tagline text updated per client's changes -->
-    <p class="tagline">
-      Vous ne trouvez pas simplement un emploi<br>Vous construisez votre carrière !
-    </p>
-  </div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="./assets/logo.png" width="80px" height="80px" />
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#micro-finance">Micro Finance</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#cnss-calculator">CNSS Calculator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex">
+                    <a href="calculator-page.html" class="btn btn-primary nav-btn">CNSS Calculator</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1>Find Perfect Match in Moroccan Job Market!</h1>
+                    <p>ActiF will soon connect Moroccan employers with the best talent and develop themselves with help of AI-powered job-matching technology as well as real local human support.</p>
+                    <div class="d-flex flex-wrap">
+                        <a data-bs-toggle="modal" data-bs-target="#companySignupModal" class="btn btn-light btn-lg me-3 mb-3">For Companies</a>
+                        <a data-bs-toggle="modal" data-bs-target="#jobSeekerSignupModal" class="btn btn-secondary btn-lg mb-3">For Job Seekers</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="./assets/Job hunt-amico.svg" alt="ActiF platform illustration" class="hero-image">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose ActiF</h2>
+                <p>Our platform offers unique benefits for both companies and job seekers</p>
+            </div>
+            
+            <div class="row">
+                <!-- For Companies -->
+                <div class="col-lg-6 mb-5">
+                    <h3 class="mb-4 text-center">For Companies</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <h3>Advanced Candidate Search</h3>
+                                <p>Use powerful filters to pick the perfect candidate for your open position.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-bullseye"></i>
+                                </div>
+                                <h3>Precision Matching</h3>
+                                <p>Our AI algorithm ensures you only see candidates who truly match your requirements.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h3>Analytics Dashboard</h3>
+                                <p>Track job performance, applicant statistics, and hiring metrics in real-time.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <h3>Time-Saving Tools</h3>
+                                <p>Streamline your hiring process with automated screening and scheduling features.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- For Job Seekers -->
+                <div class="col-lg-6">
+                    <h3 class="mb-4 text-center">For Job Seekers</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="feature-card job-seeker-feature">
+                                <div class="feature-icon">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <h3>AI Job Matching</h3>
+                                <p>Get personalized job recommendations based on your skills, experience, and preferences.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card job-seeker-feature">
+                                <div class="feature-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <h3>Career Opportunities</h3>
+                                <p>Access job posts from companies across various industries as well as public institutions.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card job-seeker-feature">
+                                <div class="feature-icon">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                                <h3>Profile Optimization</h3>
+                                <p>Get suggestions to improve your profile visibility and attractiveness to employers.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card job-seeker-feature">
+                                <div class="feature-icon">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <h3>Smart Alerts</h3>
+                                <p>Receive notifications for new job opportunities that match your career goals.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Micro Finance Section -->
+    <section class="micro-finance" id="micro-finance">
+        <div class="container">
+            <div class="section-title">
+                <h2>Micro Finance</h2>
+            </div>
+            <div class="text-center mb-5">
+                <p class="lead">An exciting Actif Project is launching here soon!</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CNSS Calculator Section -->
+    <section class="cnss-calculator" id="cnss-calculator">
+        <div class="container">
+            <div class="section-title">
+                <h2>CNSS Calculator</h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <p>The CNSS, or Caisse Nationale de Sécurité Sociale, is Morocco's National Social Security Fund founded in 1972. Primarily serving private-sector employees and self-employed individuals, it plays a vital role in ensuring social protection for workers and their families.</p>
+                    <p>At Actif, we give advisory service for salaried employees for the best format of their CNSS contributions, making sure they use their tax allowance to maximum and get maximum benefit. Please try our inhouse-developed CNSS Calculator and ask for a quote to prepare your monthly payroll.</p>
+                    <div class="text-center mt-4">
+                        <a href="calculator-page.html" class="btn btn-primary btn-lg">CNSS Calculator</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready for a new experience at career eco-system?</h2>
+            <div class="d-flex justify-content-center flex-wrap">
+                <button type="button" class="btn btn-light btn-lg me-3 mb-3" data-bs-toggle="modal" data-bs-target="#companySignupModal">Sign Up For Early Free Access - Companies</button>
+                <button type="button" class="btn btn-primary btn-lg mb-3" data-bs-toggle="modal" data-bs-target="#jobSeekerSignupModal">Sign Up For Early Free Access - Job Seekers</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Company Signup Modal -->
+    <div class="modal fade" id="companySignupModal" tabindex="-1" aria-labelledby="companySignupModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title" id="companySignupModalLabel">
+                        <span style="font-weight: 700; color: var(--primary);">Company Early Free Access</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center mb-4">Join our exclusive early access program and be the first to discover top talent for your company.</p>
+                    <form id="companySignupForm" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="companyName" class="form-label">Company Name*</label>
+                            <input type="text" class="form-control" id="companyName" required>
+                            <div class="invalid-feedback">
+                                Please provide your company name.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="companyEmail" class="form-label">Business Email*</label>
+                            <input type="email" class="form-control" id="companyEmail" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid business email.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="companySize" class="form-label">Company Size*</label>
+                            <select class="form-select" id="companySize" required>
+                                <option value="" selected disabled>Select company size</option>
+                                <option value="1-10">1-10 employees</option>
+                                <option value="11-50">11-50 employees</option>
+                                <option value="51-200">51-200 employees</option>
+                                <option value="201-500">201-500 employees</option>
+                                <option value="501+">501+ employees</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select your company size.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="companyPhone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="companyPhone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="companyIndustry" class="form-label">Industry*</label>
+                            <select class="form-select" id="companyIndustry" required>
+                                <option value="" selected disabled>Select industry</option>
+                                <option value="technology">Technology</option>
+                                <option value="healthcare">Healthcare</option>
+                                <option value="finance">Finance & Banking</option>
+                                <option value="education">Education</option>
+                                <option value="retail">Retail</option>
+                                <option value="manufacturing">Manufacturing</option>
+                                <option value="hospitality">Hospitality</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select your industry.
+                            </div>
+                        </div>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="companyTerms" required>
+                            <label class="form-check-label" for="companyTerms">
+                                I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a> and <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>*
+                            </label>
+                            <div class="invalid-feedback">
+                                You must agree to the terms before submitting.
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary py-2">Get Early Free Access</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Job Seeker Signup Modal -->
+    <div class="modal fade" id="jobSeekerSignupModal" tabindex="-1" aria-labelledby="jobSeekerSignupModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: var(--primary-light);">
+                    <h5 class="modal-title text-white" id="jobSeekerSignupModalLabel">
+                        <span style="font-weight: 700;">Job Seeker Early Free Access</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center mb-4">Join our early access program to discover job opportunities perfectly matched to your skills and preferences.</p>
+                    <form id="jobSeekerSignupForm" class="needs-validation" novalidate>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">First Name*</label>
+                                <input type="text" class="form-control" id="firstName" required>
+                                <div class="invalid-feedback">
+                                    Please provide your first name.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Last Name*</label>
+                                <input type="text" class="form-control" id="lastName" required>
+                                <div class="invalid-feedback">
+                                    Please provide your last name.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="emailAddress" class="form-label">Email Address*</label>
+                            <input type="email" class="form-control" id="emailAddress" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid email address.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phoneNumber">
+                        </div>
+                        <div class="mb-3">
+                            <label for="jobField" class="form-label">Primary Job Field*</label>
+                            <select class="form-select" id="jobField" required>
+                                <option value="" selected disabled>Select your field</option>
+                                <option value="technology">Technology</option>
+                                <option value="healthcare">Healthcare</option>
+                                <option value="finance">Finance</option>
+                                <option value="education">Education</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="sales">Sales</option>
+                                <option value="administrative">Administrative</option>
+                                <option value="hospitality">Hospitality</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select your primary job field.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="experienceLevel" class="form-label">Experience Level*</label>
+                            <select class="form-select" id="experienceLevel" required>
+                                <option value="" selected disabled>Select your experience level</option>
+                                <option value="entry">Entry Level (0-2 years)</option>
+                                <option value="mid">Mid Level (3-5 years)</option>
+                                <option value="senior">Senior Level (6-10 years)</option>
+                                <option value="executive">Executive (10+ years)</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select your experience level.
+                            </div>
+                        </div>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="seekerTerms" required>
+                            <label class="form-check-label" for="seekerTerms">
+                                I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a> and <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>*
+                            </label>
+                            <div class="invalid-feedback">
+                                You must agree to the terms before submitting.
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-secondary py-2">Get Early Free Access</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Terms of Service Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="termsModalLabel">Terms of Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>1. Acceptance of Terms</h4>
+                    <p>By accessing or using ActiF's services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.</p>
+                    
+                    <h4>2. Description of Service</h4>
+                    <p>ActiF provides an AI-powered job matching platform that connects employers with job seekers in Morocco.</p>
+                    
+                    <h4>3. User Accounts</h4>
+                    <p>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.</p>
+                    
+                    <h4>4. User Conduct</h4>
+                    <p>You agree not to use the service for any illegal purpose or in violation of any local, state, national, or international law.</p>
+                    
+                    <h4>5. Content</h4>
+                    <p>You retain ownership of any content you submit to ActiF, but grant us a license to use, modify, and display that content in connection with our services.</p>
+                    
+                    <h4>6. Termination</h4>
+                    <p>ActiF reserves the right to terminate or suspend your account at any time without notice for conduct that we believe violates these Terms or is harmful to other users of the service, us, or third parties, or for any other reason.</p>
+                    
+                    <h4>7. Changes to Terms</h4>
+                    <p>ActiF reserves the right to modify these terms at any time. We will provide notice of significant changes by posting a notice on our website or by sending you an email.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Privacy Policy Modal -->
+    <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="privacyModalLabel">Privacy Policy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>1. Information We Collect</h4>
+                    <p>We collect personal information you provide when creating an account, such as name, email, phone number, and professional information.</p>
+                    
+                    <h4>2. How We Use Information</h4>
+                    <p>We use the information we collect to provide and improve our services, communicate with you, and match job seekers with potential employers.</p>
+                    
+                    <h4>3. Information Sharing</h4>
+                    <p>We share job seeker information with potential employers and employer information with potential candidates as part of our core service.</p>
+                    
+                    <h4>4. Data Security</h4>
+                    <p>We implement appropriate security measures to protect your personal information from unauthorized access or disclosure.</p>
+                    
+                    <h4>5. Your Rights</h4>
+                    <p>You have the right to access, correct, or delete your personal information. You can also object to or restrict certain processing of your information.</p>
+                    
+                    <h4>6. Cookies</h4>
+                    <p>We use cookies and similar technologies to improve user experience and collect information about how our services are used.</p>
+                    
+                    <h4>7. Changes to Privacy Policy</h4>
+                    <p>We may update our Privacy Policy from time to time. We will notify you of significant changes by posting a notice on our website or by sending you an email.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <ul class="footer-links list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> ELITE SQ. Qtr. SELOUANE, Bur. 30, Imm. 8, Bd Taib Naciri, Casablanca 20200</li>
+                        <li><i class="fas fa-phone me-2"></i> <a href="https://wa.me/212688717565" target="_blank" class="text-decoration-none"><i class="fab fa-whatsapp me-1"></i> +212 688-717565</a></li>
+                        <li><i class="fas fa-envelope me-2"></i> marhaban@actifjobs.com</li>
+                        <li><a href="https://www.linkedin.com/company/actifjobs/?viewAsMember=true" target="_blank" class="text-decoration-none"><i class="fab fa-linkedin me-2"></i> Follow us on LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright mt-4">
+                <p>&copy; 2025 ActiF. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Form Validation Script -->
+    <script>
+        // Form validation for both signup forms
+        (function() {
+            'use strict';
+            
+            // Fetch the company signup form
+            var companyForm = document.getElementById('companySignupForm');
+            
+            // Add event listener for company form submission
+            companyForm.addEventListener('submit', function(event) {
+                if (!companyForm.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    // If form is valid, handle the submission
+                    event.preventDefault();
+                    
+                    // Get form data
+                    const companyName = document.getElementById('companyName').value;
+                    const businessEmail = document.getElementById('companyEmail').value;
+                    const companySize = document.getElementById('companySize').value;
+                    const phoneNumber = document.getElementById('companyPhone').value;
+                    const industry = document.getElementById('companyIndustry').value;
+                    
+                    // Show loading indicator
+                    const submitBtn = companyForm.querySelector('button[type="submit"]');
+                    const originalBtnText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...';
+                    submitBtn.disabled = true;
+                    
+                    // Submit to SheetDB
+                    fetch('https://sheetdb.io/api/v1/ldh1g6vx6iga5', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            data: [
+                                {
+                                    'Company Name': companyName,
+                                    'Business Email': businessEmail,
+                                    'Company Size': companySize,
+                                    'Phone Number': phoneNumber,
+                                    'Industry': industry
+                                }
+                            ]
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        // Reset form and show success message
+                        companyForm.reset();
+                        companyForm.classList.remove('was-validated');
+                        
+                        // Hide the modal
+                        var modal = document.getElementById('companySignupModal');
+                        var modalInstance = bootstrap.Modal.getInstance(modal);
+                        modalInstance.hide();
+                        
+                        // Show success message
+                        showSuccessAlert('Thank you for your interest! Your company details have been successfully submitted. We\'ll contact you soon with early access information.');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Show error message
+                        showErrorAlert('There was an issue submitting your information. Please try again later.');
+                    })
+                    .finally(() => {
+                        // Reset button state
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+                    });
+                }
+                
+                companyForm.classList.add('was-validated');
+            }, false);
+
+            // Fetch the job seeker signup form
+            var jobSeekerForm = document.getElementById('jobSeekerSignupForm');
+            
+            // Add event listener for job seeker form submission
+            jobSeekerForm.addEventListener('submit', function(event) {
+                if (!jobSeekerForm.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    // If form is valid, handle the submission
+                    event.preventDefault();
+                    
+                    // Get form data
+                    const firstName = document.getElementById('firstName').value;
+                    const lastName = document.getElementById('lastName').value;
+                    const emailAddress = document.getElementById('emailAddress').value;
+                    const phoneNumber = document.getElementById('phoneNumber').value;
+                    const jobField = document.getElementById('jobField').value;
+                    const experienceLevel = document.getElementById('experienceLevel').value;
+                    
+                    // Show loading indicator
+                    const submitBtn = jobSeekerForm.querySelector('button[type="submit"]');
+                    const originalBtnText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...';
+                    submitBtn.disabled = true;
+                    
+                    // Submit to SheetDB - using job seeker endpoint
+                    fetch('https://sheetdb.io/api/v1/qk5neavvn63mk', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            data: [
+                                {
+                                    'First Name': firstName,
+                                    'Last Name': lastName,
+                                    'Email Address': emailAddress,
+                                    'Phone Number': phoneNumber,
+                                    'Primary Job Field': jobField,
+                                    'Experience Level': experienceLevel
+                                }
+                            ]
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        // Reset form and show success message
+                        jobSeekerForm.reset();
+                        jobSeekerForm.classList.remove('was-validated');
+                        
+                        // Hide the modal
+                        var modal = document.getElementById('jobSeekerSignupModal');
+                        var modalInstance = bootstrap.Modal.getInstance(modal);
+                        modalInstance.hide();
+                        
+                        // Show success message
+                        showSuccessAlert('Thank you for your interest! Your job seeker profile has been successfully submitted. We\'ll contact you soon with early access information.');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Show error message
+                        showErrorAlert('There was an issue submitting your information. Please try again later.');
+                    })
+                    .finally(() => {
+                        // Reset button state
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+                    });
+                }
+                
+                jobSeekerForm.classList.add('was-validated');
+            }, false);
+            
+            // Function to show success alert
+            function showSuccessAlert(message) {
+                showAlert(message, 'success');
+            }
+            
+            // Function to show error alert
+            function showErrorAlert(message) {
+                showAlert(message, 'danger');
+            }
+            
+            // Generic function to show alerts
+            function showAlert(message, type) {
+                // Create alert element
+                var alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-4`;
+                alertDiv.style.maxWidth = '500px';
+                alertDiv.style.zIndex = '9999';
+                alertDiv.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                
+                // Add icon based on alert type
+                let icon = type === 'success' ? 
+                    '<i class="fas fa-check-circle me-2"></i>' : 
+                    '<i class="fas fa-exclamation-circle me-2"></i>';
+                    
+                alertDiv.innerHTML = `${icon}${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
+                
+                // Append to body
+                document.body.appendChild(alertDiv);
+                
+                // Auto-dismiss after 5 seconds
+                setTimeout(function() {
+                    alertDiv.classList.remove('show');
+                    setTimeout(function() {
+                        if (alertDiv.parentNode) {
+                            document.body.removeChild(alertDiv);
+                        }
+                    }, 150);
+                }, 5000);
+            }
+        })();
+    </script>
 </body>
 </html>

@@ -175,7 +175,7 @@
         }
         
         .section-title {
-            margin-bottom: 60px;
+            margin-bottom: 24px;
             text-align: center;
         }
         
@@ -490,7 +490,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <h1>Find Perfect Match in Moroccan Job Market!</h1>
-                    <p>ActiF will soon connect Moroccan employers the best talent and help Moroccan job seekers find ideal career opportunities and develop themselves with help of AI-powered job-matching technology as well as real local human support.</p>
+                    <p>ActiF will soon connect Moroccan employers with the best talent and develop themselves with help of AI-powered job-matching technology as well as real local human support.</p>
                     <div class="d-flex flex-wrap">
                         <a data-bs-toggle="modal" data-bs-target="#companySignupModal" class="btn btn-light btn-lg me-3 mb-3">For Companies</a>
                         <a data-bs-toggle="modal" data-bs-target="#jobSeekerSignupModal" class="btn btn-secondary btn-lg mb-3">For Job Seekers</a>
@@ -622,7 +622,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <p>The CNSS, or Caisse Nationale de Sécurité Sociale, is Morocco's National Social Security Fund founded in 1972. Primarily serving private-sector employees and self-employed individuals, it plays a vital role in ensuring social protection for workers and their families.</p>
-                    <p>At Actif, we give advisory service for salaried employees for the best format of their CNSS contrinutions, making sure they use their tax allowance to maximum and get maximum benefit. Please try our inhouse-developed CNSS Calculator and ask for a quote to prepare your monthly payroll.</p>
+                    <p>At Actif, we give advisory service for salaried employees for the best format of their CNSS contributions, making sure they use their tax allowance to maximum and get maximum benefit. Please try our inhouse-developed CNSS Calculator and ask for a quote to prepare your monthly payroll.</p>
                     <div class="text-center mt-4">
                         <a href="calculator-page.html" class="btn btn-primary btn-lg">CNSS Calculator</a>
                     </div>
@@ -749,13 +749,6 @@
                                 <div class="invalid-feedback">
                                     Please provide your last name.
                                 </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cv-upload" class="form-label">Upload your CV*</label>
-                            <input type="file" class="form-control" id="cv-upload" required>
-                            <div class="invalid-feedback">
-                                Please upload your CV.
                             </div>
                         </div>
                         <div class="mb-3">
@@ -891,11 +884,6 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
-                    <div class="footer-logo mb-4">
-                        <span style="font-weight: 700; font-size: 2rem; color: var(--primary);">Acti<span style="color: white;">F</span></span>
-                    </div>
-                    
-                    <h5>Contact Us</h5>
                     <ul class="footer-links list-unstyled">
                         <li><i class="fas fa-map-marker-alt me-2"></i> ELITE SQ. Qtr. SELOUANE, Bur. 30, Imm. 8, Bd Taib Naciri, Casablanca 20200</li>
                         <li><i class="fas fa-phone me-2"></i> <a href="https://wa.me/212688717565" target="_blank" class="text-decoration-none"><i class="fab fa-whatsapp me-1"></i> +212 688-717565</a></li>
@@ -920,45 +908,192 @@
         (function() {
             'use strict';
             
-            // Fetch all forms that need validation
-            var forms = document.querySelectorAll('.needs-validation');
+            // Fetch the company signup form
+            var companyForm = document.getElementById('companySignupForm');
             
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms).forEach(function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    } else {
-                        // If form is valid, show success message (in a real app, this would submit the form)
-                        event.preventDefault();
-                        var formId = form.id;
-                        if (formId === 'companySignupForm') {
-                            showSuccessAlert('companySignupModal', 'Thank you for your interest! We\'ll contact you soon with early access details for your company.');
-                        } else if (formId === 'jobSeekerSignupForm') {
-                            showSuccessAlert('jobSeekerSignupModal', 'Thanks for signing up! We\'ll notify you as soon as early access is available for job seekers.');
-                        }
-                        form.reset();
-                    }
+            // Add event listener for company form submission
+            companyForm.addEventListener('submit', function(event) {
+                if (!companyForm.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    // If form is valid, handle the submission
+                    event.preventDefault();
                     
-                    form.classList.add('was-validated');
-                }, false);
-            });
-            
-            // Function to show success alert and hide modal
-            function showSuccessAlert(modalId, message) {
-                // Hide the modal
-                var modal = document.getElementById(modalId);
-                var modalInstance = bootstrap.Modal.getInstance(modal);
-                modalInstance.hide();
+                    // Get form data
+                    const companyName = document.getElementById('companyName').value;
+                    const businessEmail = document.getElementById('companyEmail').value;
+                    const companySize = document.getElementById('companySize').value;
+                    const phoneNumber = document.getElementById('companyPhone').value;
+                    const industry = document.getElementById('companyIndustry').value;
+                    
+                    // Show loading indicator
+                    const submitBtn = companyForm.querySelector('button[type="submit"]');
+                    const originalBtnText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...';
+                    submitBtn.disabled = true;
+                    
+                    // Submit to SheetDB
+                    fetch('https://sheetdb.io/api/v1/ldh1g6vx6iga5', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            data: [
+                                {
+                                    'Company Name': companyName,
+                                    'Business Email': businessEmail,
+                                    'Company Size': companySize,
+                                    'Phone Number': phoneNumber,
+                                    'Industry': industry
+                                }
+                            ]
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        // Reset form and show success message
+                        companyForm.reset();
+                        companyForm.classList.remove('was-validated');
+                        
+                        // Hide the modal
+                        var modal = document.getElementById('companySignupModal');
+                        var modalInstance = bootstrap.Modal.getInstance(modal);
+                        modalInstance.hide();
+                        
+                        // Show success message
+                        showSuccessAlert('Thank you for your interest! Your company details have been successfully submitted. We\'ll contact you soon with early access information.');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Show error message
+                        showErrorAlert('There was an issue submitting your information. Please try again later.');
+                    })
+                    .finally(() => {
+                        // Reset button state
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+                    });
+                }
                 
+                companyForm.classList.add('was-validated');
+            }, false);
+
+            // Fetch the job seeker signup form
+            var jobSeekerForm = document.getElementById('jobSeekerSignupForm');
+            
+            // Add event listener for job seeker form submission
+            jobSeekerForm.addEventListener('submit', function(event) {
+                if (!jobSeekerForm.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    // If form is valid, handle the submission
+                    event.preventDefault();
+                    
+                    // Get form data
+                    const firstName = document.getElementById('firstName').value;
+                    const lastName = document.getElementById('lastName').value;
+                    const emailAddress = document.getElementById('emailAddress').value;
+                    const phoneNumber = document.getElementById('phoneNumber').value;
+                    const jobField = document.getElementById('jobField').value;
+                    const experienceLevel = document.getElementById('experienceLevel').value;
+                    
+                    // Show loading indicator
+                    const submitBtn = jobSeekerForm.querySelector('button[type="submit"]');
+                    const originalBtnText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...';
+                    submitBtn.disabled = true;
+                    
+                    // Submit to SheetDB - using job seeker endpoint
+                    fetch('https://sheetdb.io/api/v1/qk5neavvn63mk', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            data: [
+                                {
+                                    'First Name': firstName,
+                                    'Last Name': lastName,
+                                    'Email Address': emailAddress,
+                                    'Phone Number': phoneNumber,
+                                    'Primary Job Field': jobField,
+                                    'Experience Level': experienceLevel
+                                }
+                            ]
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        // Reset form and show success message
+                        jobSeekerForm.reset();
+                        jobSeekerForm.classList.remove('was-validated');
+                        
+                        // Hide the modal
+                        var modal = document.getElementById('jobSeekerSignupModal');
+                        var modalInstance = bootstrap.Modal.getInstance(modal);
+                        modalInstance.hide();
+                        
+                        // Show success message
+                        showSuccessAlert('Thank you for your interest! Your job seeker profile has been successfully submitted. We\'ll contact you soon with early access information.');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Show error message
+                        showErrorAlert('There was an issue submitting your information. Please try again later.');
+                    })
+                    .finally(() => {
+                        // Reset button state
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+                    });
+                }
+                
+                jobSeekerForm.classList.add('was-validated');
+            }, false);
+            
+            // Function to show success alert
+            function showSuccessAlert(message) {
+                showAlert(message, 'success');
+            }
+            
+            // Function to show error alert
+            function showErrorAlert(message) {
+                showAlert(message, 'danger');
+            }
+            
+            // Generic function to show alerts
+            function showAlert(message, type) {
                 // Create alert element
                 var alertDiv = document.createElement('div');
-                alertDiv.className = 'alert alert-success alert-dismissible fade show fixed-top mx-auto mt-4 col-md-6';
+                alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-4`;
                 alertDiv.style.maxWidth = '500px';
                 alertDiv.style.zIndex = '9999';
-                alertDiv.innerHTML = message + 
-                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                alertDiv.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                
+                // Add icon based on alert type
+                let icon = type === 'success' ? 
+                    '<i class="fas fa-check-circle me-2"></i>' : 
+                    '<i class="fas fa-exclamation-circle me-2"></i>';
+                    
+                alertDiv.innerHTML = `${icon}${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
                 
                 // Append to body
                 document.body.appendChild(alertDiv);
@@ -967,7 +1102,9 @@
                 setTimeout(function() {
                     alertDiv.classList.remove('show');
                     setTimeout(function() {
-                        document.body.removeChild(alertDiv);
+                        if (alertDiv.parentNode) {
+                            document.body.removeChild(alertDiv);
+                        }
                     }, 150);
                 }, 5000);
             }
