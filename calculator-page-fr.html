@@ -458,6 +458,31 @@
                 font-size: 1.8rem;
             }
         }
+
+        /* Language switcher hover effect */
+        .lang-switch {
+            display: inline-flex;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        
+        .lang-switch:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Add responsive adjustments for mobile */
+        @media (max-width: 767.98px) {
+            .lang-switch {
+                margin-bottom: 10px;
+            }
+            
+            .navbar .d-flex {
+                margin-top: 10px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+            }
+        }
     </style>
     
     <!-- JSON-LD Structured Data -->
@@ -498,21 +523,28 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link" href="index-fr.html">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#features">Features</a>
+                        <a class="nav-link" href="index-fr.html#features">Fonctionnalités</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#micro-finance">Micro Finance</a>
+                        <a class="nav-link" href="index-fr.html#micro-finance">Micro Finance</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.html#cnss-calculator">CNSS Calculator</a>
+                        <a class="nav-link active" href="index-fr.html#cnss-calculator">Calculatrice CNSS</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#contact">Contact</a>
+                        <a class="nav-link" href="index-fr.html#contact">Contact</a>
                     </li>
                 </ul>
+                
+                <!-- Added UK Flag Language Switcher -->
+                <div class="d-flex align-items-center">
+                    <a href="index.html" class="lang-switch" title="Switch to English">
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/gb.svg" alt="UK Flag" width="30" height="20" style="border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    </a>
+                </div>
             </div>
         </div>
     </nav>

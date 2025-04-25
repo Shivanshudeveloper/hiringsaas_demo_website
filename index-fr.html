@@ -400,6 +400,31 @@
                 justify-content: center;
             }
         }
+
+        /* Language switcher hover effect */
+        .lang-switch {
+            display: inline-flex;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        
+        .lang-switch:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Add responsive adjustments for mobile */
+        @media (max-width: 767.98px) {
+            .lang-switch {
+                margin-bottom: 10px;
+            }
+            
+            .navbar .d-flex {
+                margin-top: 10px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+            }
+        }
     </style>
     
     <!-- JSON-LD Structured Data -->
@@ -477,8 +502,12 @@
                     </li>
                 </ul>
                 
-                <div class="d-flex">
-                    <a href="calculator-page.html" class="btn btn-primary nav-btn">CNSS Calculator</a>
+                <div class="d-flex align-items-center">
+                    <!-- UK Flag Language Switcher -->
+                    <a href="index.html" class="me-3 lang-switch" title="Switch to English">
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/gb.svg" alt="UK Flag" width="30" height="20" style="border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    </a>
+                    <a href="calculator-page-fr.html" class="btn btn-primary nav-btn"> Calculatrice CNSS</a>
                 </div>
             </div>
         </div>
@@ -667,7 +696,7 @@
                         Chez Actif, nous offrons un service de conseil pour les employés salariés afin de choisir le meilleur format pour leurs cotisations CNSS, en nous assurant qu'ils utilisent au maximum leur abattement fiscal et qu'ils bénéficient d'un avantage maximal. Essayez notre calculatrice CNSS développée en interne et demandez un devis pour la préparation de votre paie mensuelle.
                     </p>
                     <div class="text-center mt-4">
-                        <a href="calculator-page.html" class="btn btn-primary btn-lg">Calculatrice CNSS
+                        <a href="calculator-page-fr.html" class="btn btn-primary btn-lg">Calculatrice CNSS
                         </a>
                     </div>
                 </div>
