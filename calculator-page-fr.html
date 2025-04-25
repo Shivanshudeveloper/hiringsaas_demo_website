@@ -647,8 +647,8 @@
             <table class="result-table">
                 <thead>
                     <tr>
-                        <th>Description</th>
-                        <th>Amount (MAD)</th>
+                        <th>Déductions</th>
+                        <th>Montant (MAD)</th>
                     </tr>
                 </thead>
                 <tbody id="results-body">
@@ -898,30 +898,30 @@
                 // Display all calculation results - removed Professional Expenses row
                 resultsBody.innerHTML = `
                     <tr class="result-row">
-                        <td colspan="2"><strong>Deductions</strong></td>
+                        <td colspan="2"><strong>Déductions</strong></td>
                     </tr>
                     <tr class="result-row">
-                        <td>CNSS Contribution (Employee 4.48%)</td>
+                        <td>Contribution CNSS (Employé 4,48%)</td>
                         <td class="currency">${cnssValue.toFixed(2)}</td>
                     </tr>
                     <tr class="result-row">
-                        <td>Health Insurance (Employee 2.26%)</td>
+                        <td>Assurance Santé (Employé 2,26%)</td>
                         <td class="currency">${healthInsuranceValue.toFixed(2)}</td>
                     </tr>
                     <tr class="result-row">
-                        <td>Gross Taxable Salary</td>
+                        <td>Salaire Brut Imposable</td>
                         <td class="currency">${taxableSalaryValue.toFixed(2)}</td>
                     </tr>
                     <tr class="result-row">
-                        <td>IGR Income Tax</td>
+                        <td>Impôt Général sur le Revenu (IGR)</td>
                         <td class="currency">${igrValue.toFixed(2)}</td>
                     </tr>
                     <tr class="result-row total-row">
-                        <td>Total Deductions</td>
+                        <td>Total des déductions</td>
                         <td class="currency">${totalDeductionsValue.toFixed(2)}</td>
                     </tr>
                     <tr class="result-row total-row">
-                        <td><strong>Net Payable</strong></td>
+                        <td><strong>Net à payer</strong></td>
                         <td class="currency"><strong>${netPayableValue.toFixed(2)}</strong></td>
                     </tr>
                 `;
