@@ -574,11 +574,11 @@
             </div>
             
             <div class="input-group">
-                <label for="seniority-days">Indemnité d’ancienneté
+                <label for="seniority-days">Indemnité d'ancienneté
                 </label>
                 <input type="number" id="seniority-days" min="0" value="900">
                 <div class="helper-text">Travailler plus de 2 ans dans une entreprise vous donne droit à cette indemnité
-                <br>Saisissez le nombre total de jours travaillés dans l’entreprise
+                <br>Saisissez le nombre total de jours travaillés dans l'entreprise
             </div>
                 <div class="seniority-info" id="seniority-info"></div>
             </div>
@@ -616,10 +616,37 @@
             </div>
             
             <div class="input-group">
-                <label for="travel-bonus">Indemnité de deplacement 
-                </label>
+                <label for="travel-bonus">Indemnité de deplacement </label>
                 <input type="number" id="travel-bonus" min="0" value="1500">
-                <div class="helper-text">1500 MAD par mois pour les employés voyageant régulièrement.
+                <div class="helper-text">1500 MAD par mois pour les employés voyageant régulièrement.</div>
+            </div>
+
+            <!-- Champ CIMR -->
+            <div class="input-group">
+                <label for="cimr-yesno">CIMR</label>
+                <select id="cimr-yesno">
+                    <option value="no">Non</option>
+                    <option value="yes">Oui</option>
+                </select>
+                <div class="helper-text">Caisse Interprofessionnelle Marocaine de Retraite</div>
+                <div id="cimr-percent-container" class="input-group" style="display:none; margin-top: 0;">
+                    <label for="cimr-js-percent">Pourcentage CIMR Employé</label>
+                    <select id="cimr-js-percent">
+                        <option value="3.00">3,00%</option>
+                        <option value="3.75">3,75%</option>
+                        <option value="4.50">4,50%</option>
+                        <option value="5.25">5,25%</option>
+                        <option value="6.00">6,00%</option>
+                        <option value="7.00">7,00%</option>
+                        <option value="7.50">7,50%</option>
+                        <option value="8.00">8,00%</option>
+                        <option value="8.50">8,50%</option>
+                        <option value="9.00">9,00%</option>
+                        <option value="9.50">9,50%</option>
+                        <option value="10.00">10,00%</option>
+                        <option value="11.00">11,00%</option>
+                        <option value="12.00">12,00%</option>
+                    </select>
                 </div>
             </div>
             
@@ -717,6 +744,12 @@
         </div>
     </div>
     
+    <!-- Section d'information CIMR -->
+    <div class="cimr-info-section" style="background:#f9f9f9;padding:24px 30px 18px 30px;margin:40px 0 0 0;border-radius:10px;border-left:4px solid #00B4A4;max-width:1000px;margin-left:auto;margin-right:auto;">
+        <h3 style="color:#009089;margin-bottom:10px;">À propos de la CIMR (Caisse Interprofessionnelle Marocaine de Retraite)</h3>
+        <p style="color:#555;font-size:1.05em;">La CIMR (Caisse Interprofessionnelle Marocaine de Retraite) est un fonds de pension dédié aux salariés, qui assure le versement des prestations de retraite. Active depuis 1949, elle propose un système de retraite durable et solidaire, garantissant des pensions équitables grâce à une gestion efficace.<br><br>Elle fonctionne de manière indépendante et est administrée par un Conseil d'administration élu par ses membres. La CIMR a obtenu plusieurs certifications, dont la norme ISO 9001. Plus d'informations sont disponibles sur le site : <a href="https://www.cimr.ma" target="_blank" rel="noopener" style="color:#00B4A4;text-decoration:underline;">https://www.cimr.ma</a>.</p>
+    </div>
+    
     <!-- Footer -->
     <footer class="footer" id="contact">
         <div class="container">
@@ -760,6 +793,14 @@
             const resultsBody = document.getElementById('results-body');
             const seniorityInfo = document.getElementById('seniority-info');
             const grossSalaryValue = document.getElementById('gross-salary-value');
+            
+            // Logique du dropdown CIMR
+            const cimrYesNo = document.getElementById('cimr-yesno');
+            const cimrPercentContainer = document.getElementById('cimr-percent-container');
+            const cimrJsPercent = document.getElementById('cimr-js-percent');
+            cimrYesNo.addEventListener('change', function() {
+                cimrPercentContainer.style.display = cimrYesNo.value === 'yes' ? 'block' : 'none';
+            });
             
             // Set up event listeners
             baseSalaryInput.addEventListener('input', updateRepresentationAllowance);
@@ -813,70 +854,57 @@
             
             // Function to perform all salary calculations
             function performCalculation() {
-                // Get input values
+                // Valeurs d'entrée
                 const baseValue = parseFloat(baseSalaryInput.value) || 0;
                 const dayCount = parseFloat(seniorityDaysInput.value) || 0;
                 const mealValue = parseFloat(mealAllowanceInput.value) || 0;
                 const repValue = parseFloat(representationAllowanceInput.value) || 0;
                 const travelValue = parseFloat(travelBonusInput.value) || 0;
-                
-                // Get transport allowance based on type
-                let transportValue = 0; // Default none
+                const cimrActive = cimrYesNo.value === 'yes';
+                const cimrJsRate = cimrActive ? parseFloat(cimrJsPercent.value) : 0;
+                // Taux employeur CIMR correspondant
+                const cimrEmpRates = {
+                    '3.00': 3.90, '3.75': 4.88, '4.50': 5.85, '5.25': 6.83, '6.00': 7.80, '7.00': 9.10, '7.50': 9.75, '8.00': 10.40, '8.50': 11.05, '9.00': 11.70, '9.50': 12.35, '10.00': 13.00, '11.00': 14.30, '12.00': 15.60
+                };
+                const cimrEmpRate = cimrActive ? cimrEmpRates[cimrJsPercent.value] : 0;
+
+                // Indemnité de transport
+                let transportValue = 0;
                 if (transportTypeSelect.value === 'urban') {
                     transportValue = 500;
                 } else if (transportTypeSelect.value === 'rural') {
                     transportValue = 750;
                 }
-                
-                // Calculate seniority rate and bonus
+
+                // Calcul de l'ancienneté
                 const yearCount = dayCount / 365;
                 let seniorityRateDecimal = 0;
-                
                 if (yearCount >= 2 && yearCount < 5) {
-                    seniorityRateDecimal = 0.05; // 5%
+                    seniorityRateDecimal = 0.05;
                 } else if (yearCount >= 5 && yearCount < 12) {
-                    seniorityRateDecimal = 0.1; // 10%
+                    seniorityRateDecimal = 0.1;
                 } else if (yearCount >= 12 && yearCount < 20) {
-                    seniorityRateDecimal = 0.15; // 15%
+                    seniorityRateDecimal = 0.15;
                 } else if (yearCount >= 20) {
-                    seniorityRateDecimal = 0.2; // 20%
+                    seniorityRateDecimal = 0.2;
                 }
-                
-                // Calculate seniority bonus with precise rounding
                 const seniorityBonusValue = Math.round(baseValue * seniorityRateDecimal * 100) / 100;
-                
-                // Calculate salary base (base + seniority)
                 const salaryBaseValue = baseValue + seniorityBonusValue;
-                
-                // Calculate total gross salary
-                const grossSalaryTotal = Math.round((baseValue + seniorityBonusValue + mealValue + 
-                                        transportValue + repValue + travelValue) * 100) / 100;
-                
-                // Update gross salary display
+                const grossSalaryTotal = Math.round((baseValue + seniorityBonusValue + mealValue + transportValue + repValue + travelValue) * 100) / 100;
                 grossSalaryValue.textContent = grossSalaryTotal.toFixed(2);
-                
-                // Calculate CNSS contribution
+
+                // Déductions employé
                 const cnssBaseValue = Math.min(salaryBaseValue, 6000);
                 const cnssValue = Math.round(cnssBaseValue * 0.0448 * 100) / 100;
-                
-                // Calculate health insurance (2.26% of base + seniority)
                 const healthInsuranceBase = cnssBaseValue === 6000 ? baseValue : salaryBaseValue;
                 const healthInsuranceValue = Math.round(healthInsuranceBase * 0.0226 * 100) / 100;
-                
-                // Calculate professional expenses (35% if ≤6500, else 25%, capped at 2916.67)
+                // CIMR Employé
+                const cimrJsValue = cimrActive ? Math.round(salaryBaseValue * (cimrJsRate / 100) * 100) / 100 : 0;
+                // Frais professionnels (inchangé)
                 const profExpensesRate = parseFloat(profExpensesRateInput.value) || 25;
-                const profExpensesValue = Math.min(
-                    Math.round(salaryBaseValue * (profExpensesRate / 100) * 100) / 100,
-                    2916.67
-                );
-                
-                // Calculate taxable salary
-                const taxableSalaryValue = Math.round((salaryBaseValue - cnssValue - 
-                                            profExpensesValue - healthInsuranceValue) * 100) / 100;
-                
-                // Calculate IGR tax
+                const profExpensesValue = Math.min(Math.round(salaryBaseValue * (profExpensesRate / 100) * 100) / 100, 2916.67);
+                const taxableSalaryValue = Math.round((salaryBaseValue - cnssValue - profExpensesValue - healthInsuranceValue) * 100) / 100;
                 let igrValue = 0;
-                
                 if (taxableSalaryValue >= 15000) {
                     igrValue = taxableSalaryValue * 0.37 - 2283.33;
                 } else if (taxableSalaryValue >= 8333) {
@@ -888,17 +916,21 @@
                 } else if (taxableSalaryValue >= 3333) {
                     igrValue = taxableSalaryValue * 0.1 - 333.33;
                 }
-                
-                // Make sure IGR is not negative
                 igrValue = Math.max(0, Math.round(igrValue * 100) / 100);
-                
-                // Calculate total deductions
-                const totalDeductionsValue = Math.round((cnssValue + healthInsuranceValue + igrValue) * 100) / 100;
-                
-                // Calculate net payable
+                const totalDeductionsValue = Math.round((cnssValue + healthInsuranceValue + igrValue + cimrJsValue) * 100) / 100;
                 const netPayableValue = Math.round((grossSalaryTotal - totalDeductionsValue) * 100) / 100;
-                
-                // Display all calculation results - removed Professional Expenses row
+
+                // Déductions employeur
+                const cnssEmpValue = Math.round(Math.min(salaryBaseValue, 6000) * 0.0898 * 100) / 100;
+                const famAllowBase = cnssBaseValue === 6000 ? baseValue : salaryBaseValue;
+                const famAllowEmpValue = Math.round(famAllowBase * 0.064 * 100) / 100;
+                const profTrainEmpValue = Math.round(famAllowBase * 0.016 * 100) / 100;
+                const healthEmpValue = Math.round(famAllowBase * 0.0411 * 100) / 100;
+                const cimrEmpValue = cimrActive ? Math.round(salaryBaseValue * (cimrEmpRate / 100) * 100) / 100 : 0;
+                const totalEmpDeductions = Math.round((cnssEmpValue + famAllowEmpValue + profTrainEmpValue + healthEmpValue + cimrEmpValue) * 100) / 100;
+                const totalCostOfEmployee = Math.round((netPayableValue + totalEmpDeductions) * 100) / 100;
+
+                // Affichage des résultats
                 resultsBody.innerHTML = `
                     <tr class="result-row">
                         <td colspan="2"><strong>Déductions</strong></td>
@@ -910,6 +942,10 @@
                     <tr class="result-row">
                         <td>Assurance Santé (Employé 2,26%)</td>
                         <td class="currency">${healthInsuranceValue.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row">
+                        <td>CIMR (Employé ${cimrActive ? cimrJsRate.toFixed(2).replace('.', ',') : '--'}%)</td>
+                        <td class="currency">${cimrJsValue.toFixed(2)}</td>
                     </tr>
                     <tr class="result-row">
                         <td>Salaire Brut Imposable</td>
@@ -926,6 +962,37 @@
                     <tr class="result-row total-row">
                         <td><strong>Net à payer</strong></td>
                         <td class="currency"><strong>${netPayableValue.toFixed(2)}</strong></td>
+                    </tr>
+                    <tr class="result-row">
+                        <td colspan="2"><strong>Pour l'employeur</strong></td>
+                    </tr>
+                    <tr class="result-row">
+                        <td>Contribution CNSS (Employeur 8,98%)</td>
+                        <td class="currency">${cnssEmpValue.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row">
+                        <td>Allocation familiale (Employeur 6,40%)</td>
+                        <td class="currency">${famAllowEmpValue.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row">
+                        <td>Formation professionnelle (Employeur 1,60%)</td>
+                        <td class="currency">${profTrainEmpValue.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row">
+                        <td>Assurance Santé (Employeur 4,11%)</td>
+                        <td class="currency">${healthEmpValue.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row">
+                        <td>CIMR (Employeur ${cimrActive ? cimrEmpRate.toFixed(2).replace('.', ',') : '--'}%)</td>
+                        <td class="currency">${cimrEmpValue.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row total-row">
+                        <td>Total des déductions</td>
+                        <td class="currency">${totalEmpDeductions.toFixed(2)}</td>
+                    </tr>
+                    <tr class="result-row total-row">
+                        <td><strong>Coût total du salarié</strong></td>
+                        <td class="currency"><strong>${totalCostOfEmployee.toFixed(2)}</strong></td>
                     </tr>
                 `;
             }
