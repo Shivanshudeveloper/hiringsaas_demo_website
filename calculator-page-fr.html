@@ -896,8 +896,8 @@
                 // Déductions employé
                 const cnssBaseValue = Math.min(salaryBaseValue, 6000);
                 const cnssValue = Math.round(cnssBaseValue * 0.0448 * 100) / 100;
-                // Assurance santé (employé) : toujours utiliser salaryBaseValue
-                const healthInsuranceValue = Math.round(salaryBaseValue * 0.0226 * 100) / 100;
+                // Assurance santé (employé) : toujours utiliser baseValue
+                const healthInsuranceValue = Math.round(baseValue * 0.0226 * 100) / 100;
                 // CIMR Employé
                 const cimrJsValue = cimrActive ? Math.round(salaryBaseValue * (cimrJsRate / 100) * 100) / 100 : 0;
                 // Frais professionnels (inchangé)
@@ -923,12 +923,12 @@
                 // Déductions employeur
                 // CNSS EMP : 8,98% de (base+ancienneté), plafonné à 6000
                 const cnssEmpValue = Math.round(Math.min(salaryBaseValue, 6000) * 0.0898 * 100) / 100;
-                // Allocation familiale EMP : 6,40% de salaryBaseValue (pas de plafond)
-                const famAllowEmpValue = Math.round(salaryBaseValue * 0.064 * 100) / 100;
-                // Formation professionnelle EMP : 1,60% de salaryBaseValue (pas de plafond)
-                const profTrainEmpValue = Math.round(salaryBaseValue * 0.016 * 100) / 100;
-                // Assurance santé EMP : 4,11% de salaryBaseValue (pas de plafond)
-                const healthEmpValue = Math.round(salaryBaseValue * 0.0411 * 100) / 100;
+                // Allocation familiale EMP : 6,40% de baseValue (pas de plafond)
+                const famAllowEmpValue = Math.round(baseValue * 0.064 * 100) / 100;
+                // Formation professionnelle EMP : 1,60% de baseValue (pas de plafond)
+                const profTrainEmpValue = Math.round(baseValue * 0.016 * 100) / 100;
+                // Assurance santé EMP : 4,11% de baseValue (pas de plafond)
+                const healthEmpValue = Math.round(baseValue * 0.0411 * 100) / 100;
                 // CIMR Employeur
                 const cimrEmpValue = cimrActive ? Math.round(salaryBaseValue * (cimrEmpRate / 100) * 100) / 100 : 0;
                 const totalEmpDeductions = Math.round((cnssEmpValue + famAllowEmpValue + profTrainEmpValue + healthEmpValue + cimrEmpValue) * 100) / 100;
