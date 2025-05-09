@@ -862,9 +862,12 @@
                 const travelValue = parseFloat(travelBonusInput.value) || 0;
                 const cimrActive = cimrYesNo.value === 'yes';
                 const cimrJsRate = cimrActive ? parseFloat(cimrJsPercent.value) : 0;
+                
                 // Taux employeur CIMR correspondant
                 const cimrEmpRates = {
-                    '3.00': 3.90, '3.75': 4.88, '4.50': 5.85, '5.25': 6.83, '6.00': 7.80, '7.00': 9.10, '7.50': 9.75, '8.00': 10.40, '8.50': 11.05, '9.00': 11.70, '9.50': 12.35, '10.00': 13.00, '11.00': 14.30, '12.00': 15.60
+                    '3.00': 3.90, '3.75': 4.88, '4.50': 5.85, '5.25': 6.83, '6.00': 7.80, 
+                    '7.00': 9.10, '7.50': 9.75, '8.00': 10.40, '8.50': 11.05, '9.00': 11.70, 
+                    '9.50': 12.35, '10.00': 13.00, '11.00': 14.30, '12.00': 15.60
                 };
                 const cimrEmpRate = cimrActive ? cimrEmpRates[cimrJsPercent.value] : 0;
 
@@ -888,22 +891,35 @@
                 } else if (yearCount >= 20) {
                     seniorityRateDecimal = 0.2;
                 }
+                
                 const seniorityBonusValue = Math.round(baseValue * seniorityRateDecimal * 100) / 100;
                 const salaryBaseValue = baseValue + seniorityBonusValue;
                 const grossSalaryTotal = Math.round((baseValue + seniorityBonusValue + mealValue + transportValue + repValue + travelValue) * 100) / 100;
                 grossSalaryValue.textContent = grossSalaryTotal.toFixed(2);
 
-                // Déductions employé
+                // CNSS calculation (capped at 6000)
                 const cnssBaseValue = Math.min(salaryBaseValue, 6000);
                 const cnssValue = Math.round(cnssBaseValue * 0.0448 * 100) / 100;
-                // Assurance santé (employé) : toujours utiliser baseValue
-                const healthInsuranceValue = Math.round(baseValue * 0.0226 * 100) / 100;
-                // CIMR Employé
+                
+                // Critical fix: determine which base to use based on CNSS cap
+                // If base+seniority > 6000, use baseValue only for other calculations
+                // If base+seniority ≤ 6000, use salaryBaseValue
+                const otherDeductionsBase = (salaryBaseValue > 6000) ? baseValue : salaryBaseValue;
+                
+                // Health Insurance (Employee) - use the appropriate base per client rules
+                const healthInsuranceValue = Math.round(otherDeductionsBase * 0.0226 * 100) / 100;
+                
+                // CIMR Employee
                 const cimrJsValue = cimrActive ? Math.round(salaryBaseValue * (cimrJsRate / 100) * 100) / 100 : 0;
-                // Frais professionnels (inchangé)
+                
+                // Professional expenses
                 const profExpensesRate = parseFloat(profExpensesRateInput.value) || 25;
                 const profExpensesValue = Math.min(Math.round(salaryBaseValue * (profExpensesRate / 100) * 100) / 100, 2916.67);
-                const taxableSalaryValue = Math.round((salaryBaseValue - cnssValue - profExpensesValue - healthInsuranceValue) * 100) / 100;
+                
+                // Taxable salary calculation
+                const taxableSalaryValue = Math.round((salaryBaseValue - cnssValue - profExpensesValue - healthInsuranceValue - cimrJsValue) * 100) / 100;
+                
+                // IGR calculation
                 let igrValue = 0;
                 if (taxableSalaryValue >= 15000) {
                     igrValue = taxableSalaryValue * 0.37 - 2283.33;
@@ -917,21 +933,21 @@
                     igrValue = taxableSalaryValue * 0.1 - 333.33;
                 }
                 igrValue = Math.max(0, Math.round(igrValue * 100) / 100);
+                
+                // Total employee deductions
                 const totalDeductionsValue = Math.round((cnssValue + healthInsuranceValue + igrValue + cimrJsValue) * 100) / 100;
                 const netPayableValue = Math.round((grossSalaryTotal - totalDeductionsValue) * 100) / 100;
 
-                // Déductions employeur
-                // CNSS EMP : 8,98% de (base+ancienneté), plafonné à 6000
-                const cnssEmpValue = Math.round(Math.min(salaryBaseValue, 6000) * 0.0898 * 100) / 100;
-                // Allocation familiale EMP : 6,40% de baseValue (pas de plafond)
-                const famAllowEmpValue = Math.round(baseValue * 0.064 * 100) / 100;
-                // Formation professionnelle EMP : 1,60% de baseValue (pas de plafond)
-                const profTrainEmpValue = Math.round(baseValue * 0.016 * 100) / 100;
-                // Assurance santé EMP : 4,11% de baseValue (pas de plafond)
-                const healthEmpValue = Math.round(baseValue * 0.0411 * 100) / 100;
-                // CIMR Employeur
+                // Employer deductions - all using the appropriate base per client rules
+                const cnssEmpValue = Math.round(cnssBaseValue * 0.0898 * 100) / 100;
+                const famAllowEmpValue = Math.round(otherDeductionsBase * 0.064 * 100) / 100;
+                const profTrainEmpValue = Math.round(otherDeductionsBase * 0.016 * 100) / 100;
+                const healthEmpValue = Math.round(otherDeductionsBase * 0.0411 * 100) / 100;
                 const cimrEmpValue = cimrActive ? Math.round(salaryBaseValue * (cimrEmpRate / 100) * 100) / 100 : 0;
+                
                 const totalEmpDeductions = Math.round((cnssEmpValue + famAllowEmpValue + profTrainEmpValue + healthEmpValue + cimrEmpValue) * 100) / 100;
+                
+                // Total cost of employee (net payable + employer deductions)
                 const totalCostOfEmployee = Math.round((netPayableValue + totalEmpDeductions) * 100) / 100;
 
                 // Affichage des résultats
@@ -1043,12 +1059,15 @@
                 const grossSalaryTotal = Math.round((baseValue + seniorityBonusValue + mealValue + 
                                         transportValue + repValue + travelValue) * 100) / 100;
                 
-                // Calculate CNSS contribution
+                // Calculate CNSS contribution - apply cap
                 const cnssBaseValue = Math.min(salaryBaseValue, 6000);
                 const cnssValue = Math.round(cnssBaseValue * 0.0448 * 100) / 100;
                 
-                // Calculate health insurance
-                const healthInsuranceValue = Math.round((baseValue + seniorityBonusValue) * 0.0226 * 100) / 100;
+                // Determine which base to use based on CNSS cap
+                const otherDeductionsBase = (salaryBaseValue > 6000) ? baseValue : salaryBaseValue;
+                
+                // Calculate health insurance on proper base
+                const healthInsuranceValue = Math.round(otherDeductionsBase * 0.0226 * 100) / 100;
                 
                 // Calculate professional expenses
                 const profExpensesRate = parseFloat(profExpensesRateInput.value) || 25;
