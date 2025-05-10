@@ -967,10 +967,7 @@
                         <td>CIMR (Employé ${cimrActive ? cimrJsRate.toFixed(2).replace('.', ',') : '--'}%)</td>
                         <td class="currency">${cimrJsValue.toFixed(2)}</td>
                     </tr>
-                    <tr class="result-row">
-                        <td>Salaire Brut Imposable</td>
-                        <td class="currency">${taxableSalaryValue.toFixed(2)}</td>
-                    </tr>
+                    
                     <tr class="result-row">
                         <td>Impôt Général sur le Revenu (IGR)</td>
                         <td class="currency">${igrValue.toFixed(2)}</td>
@@ -1124,7 +1121,6 @@
                 csvContent += "Déductions,Montant (MAD)\n";
                 csvContent += `Contribution CNSS (Employé 4,48%),${cnssValue.toFixed(2)}\n`;
                 csvContent += `Assurance Santé (Employé 2,26%),${healthInsuranceValue.toFixed(2)}\n`;
-                csvContent += `Salaire Brut Imposable,${taxableSalaryValue.toFixed(2)}\n`;
                 csvContent += `Impôt Général sur le Revenu (IGR),${igrValue.toFixed(2)}\n`;
                 csvContent += `Total des déductions,${totalDeductionsValue.toFixed(2)}\n`;
                 csvContent += `Net à payer,${netPayableValue.toFixed(2)}\n`;
