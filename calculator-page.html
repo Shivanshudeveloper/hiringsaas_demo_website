@@ -534,13 +534,13 @@
             <h2 class="section-title">Salary Components</h2>
             <div class="input-group">
                 <label for="base-salary">Base Salary</label>
-                <input type="number" id="base-salary" min="0" step="100" value="6400">
+                <input type="number" id="base-salary" min="0" step="100" value="8000">
                 <div class="helper-text">Enter monthly base salary (your base salary + seniority + allowances will give your gross salary)</div>
             </div>
             
             <div class="input-group">
                 <label for="seniority-days">Seniority Allowance</label>
-                <input type="number" id="seniority-days" min="0" value="900">
+                <input type="number" id="seniority-days" min="0" value="2200">
                 <div class="helper-text">Working for over 2 yrs in a company rewards you with this allowance<br>Enter total days worked in company</div>
                 <div class="seniority-info" id="seniority-info"></div>
             </div>
@@ -565,7 +565,7 @@
                 <label for="representation-type">Representation Allowance</label>
                 <select id="representation-type">
                     <option value="no">No</option>
-                    <option value="yes">Yes</option>
+                    <option value="yes" selected>Yes</option>
                 </select>
                 <div class="helper-text">10% of base salary is maximum as tax-free allowance for upper management (CEO, director, head of dept...)</div>
                 <input type="hidden" id="representation-allowance" value="0">
@@ -604,6 +604,19 @@
                         <option value="12.00">12.00%</option>
                     </select>
                 </div>
+            </div>
+
+            <!-- NEW CHILDREN TAX DEDUCTION FIELD -->
+            <div class="input-group">
+                <label for="children-count">How many children do you have?</label>
+                <select id="children-count">
+                    <option value="0">No children</option>
+                    <option value="1">1 child</option>
+                    <option value="2">2 children</option>
+                    <option value="3">3 children</option>
+                    <option value="more">4 or more children</option>
+                </select>
+                <div class="helper-text">Children reduce your IGR tax: 1 child = -30 MAD, 2 children = -60 MAD, 3 children = -90 MAD, 4+ children = -180 MAD</div>
             </div>
             
             <!-- Hidden Professional Expenses Rate field -->
@@ -681,6 +694,16 @@
                 <br>• 8,333 - 15,000 MAD: 34% (minus 1,833.33)
                 <br>• Above 15,000 MAD: 37% (minus 2,283.33)</p>
             </div>
+
+            <div class="explanation-item">
+                <h3>Children Tax Deduction</h3>
+                <p>Employees with dependent children receive IGR tax reductions:
+                <br>• 1 child: 30 MAD reduction
+                <br>• 2 children: 60 MAD reduction
+                <br>• 3 children: 90 MAD reduction
+                <br>• 4 or more children: 180 MAD reduction (maximum)
+                <br>Note: Tax cannot go below zero - minimum IGR is 0 MAD.</p>
+            </div>
         </div>
     </div>
     <!-- CIMR Info Section -->
@@ -731,6 +754,7 @@
             const resultsBody = document.getElementById('results-body');
             const seniorityInfo = document.getElementById('seniority-info');
             const grossSalaryValue = document.getElementById('gross-salary-value');
+            const childrenCountSelect = document.getElementById('children-count');
             
             // CIMR dropdown logic
             const cimrYesNo = document.getElementById('cimr-yesno');
@@ -800,6 +824,7 @@
                 const travelValue = parseFloat(travelBonusInput.value) || 0;
                 const cimrActive = cimrYesNo.value === 'yes';
                 const cimrJsRate = cimrActive ? parseFloat(cimrJsPercent.value) : 0;
+                const childrenCount = childrenCountSelect.value;
                 
                 // Employer CIMR rates corresponding to JS rates
                 const cimrEmpRates = {
@@ -872,6 +897,23 @@
                 }
                 igrValue = Math.max(0, Math.round(igrValue * 100) / 100);
                 
+                // Apply children tax deduction ONLY if IGR > 0
+                let childrenDeduction = 0;
+                if (igrValue > 0) {
+                    if (childrenCount === '1') {
+                        childrenDeduction = 30;
+                    } else if (childrenCount === '2') {
+                        childrenDeduction = 60;
+                    } else if (childrenCount === '3') {
+                        childrenDeduction = 90;
+                    } else if (childrenCount === 'more') {
+                        childrenDeduction = 180;
+                    }
+                    
+                    // Apply deduction but ensure IGR doesn't go below 0
+                    igrValue = Math.max(0, igrValue - childrenDeduction);
+                }
+                
                 // Total employee deductions
                 const totalDeductionsValue = Math.round((cnssValue + healthInsuranceValue + igrValue + cimrJsValue) * 100) / 100;
                 const netPayableValue = Math.round((grossSalaryTotal - totalDeductionsValue) * 100) / 100;
@@ -887,6 +929,16 @@
                 
                 // Total cost of employee (net payable + employer deductions)
                 const totalCostOfEmployee = Math.round((netPayableValue + totalEmpDeductions) * 100) / 100;
+
+                // Display children deduction info if applicable
+                let childrenDeductionRow = '';
+                if (childrenDeduction > 0) {
+                    childrenDeductionRow = `
+                        <tr class="result-row">
+                            <td>Children Tax Deduction (${childrenCount === 'more' ? '4+' : childrenCount} ${childrenCount === '1' ? 'child' : 'children'})</td>
+                            <td class="currency">-${childrenDeduction.toFixed(2)}</td>
+                        </tr>`;
+                }
 
                 // Display all calculation results
                 resultsBody.innerHTML = `
@@ -905,7 +957,11 @@
                         <td>CIMR (Employee ${cimrActive ? cimrJsRate.toFixed(2) : '--'}%)</td>
                         <td class="currency">${cimrJsValue.toFixed(2)}</td>
                     </tr>
-                    
+                    <tr class="result-row">
+                        <td>Gross Taxable Salary</td>
+                        <td class="currency">${taxableSalaryValue.toFixed(2)}</td>
+                    </tr>
+                    ${childrenDeductionRow}
                     <tr class="result-row">
                         <td>IGR Income Tax</td>
                         <td class="currency">${igrValue.toFixed(2)}</td>
@@ -960,6 +1016,7 @@
                 const mealValue = parseFloat(mealAllowanceInput.value) || 0;
                 const repValue = parseFloat(representationAllowanceInput.value) || 0;
                 const travelValue = parseFloat(travelBonusInput.value) || 0;
+                const childrenCount = childrenCountSelect.value;
                 
                 // Get transport allowance based on type
                 let transportValue = 0; // Default none
@@ -1031,6 +1088,22 @@
                 }
                 
                 igrValue = Math.max(0, Math.round(igrValue * 100) / 100);
+
+                // Apply children tax deduction
+                let childrenDeduction = 0;
+                if (igrValue > 0) {
+                    if (childrenCount === '1') {
+                        childrenDeduction = 30;
+                    } else if (childrenCount === '2') {
+                        childrenDeduction = 60;
+                    } else if (childrenCount === '3') {
+                        childrenDeduction = 90;
+                    } else if (childrenCount === 'more') {
+                        childrenDeduction = 180;
+                    }
+                    
+                    igrValue = Math.max(0, igrValue - childrenDeduction);
+                }
                 
                 // Calculate total deductions
                 const totalDeductionsValue = Math.round((cnssValue + healthInsuranceValue + igrValue) * 100) / 100;
@@ -1042,7 +1115,7 @@
                 const now = new Date();
                 const dateStr = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
                 
-                // Create CSV content - removed Professional Expenses from CSV
+                // Create CSV content
                 let csvContent = "data:text/csv;charset=utf-8,";
                 csvContent += "CNSS Salary Calculation Results\n";
                 csvContent += `Date,${dateStr}\n\n`;
@@ -1059,6 +1132,10 @@
                 csvContent += "Deductions,Amount (MAD)\n";
                 csvContent += `CNSS Contribution (Employee 4.48%),${cnssValue.toFixed(2)}\n`;
                 csvContent += `Health Insurance (Employee 2.26%),${healthInsuranceValue.toFixed(2)}\n`;
+                csvContent += `Gross Taxable Salary,${taxableSalaryValue.toFixed(2)}\n`;
+                if (childrenDeduction > 0) {
+                    csvContent += `Children Tax Deduction (${childrenCount === 'more' ? '4+' : childrenCount} ${childrenCount === '1' ? 'child' : 'children'}),${childrenDeduction.toFixed(2)}\n`;
+                }
                 csvContent += `IGR Income Tax,${igrValue.toFixed(2)}\n`;
                 csvContent += `Total Deductions,${totalDeductionsValue.toFixed(2)}\n`;
                 csvContent += `Net Payable,${netPayableValue.toFixed(2)}\n`;

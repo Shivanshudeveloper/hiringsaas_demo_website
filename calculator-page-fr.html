@@ -529,7 +529,7 @@
                         <a class="nav-link" href="index-fr.html#features">Fonctionnalités</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index-fr.html#micro-finance">Microfinance
+                        <a class="nav-link" href="index-fr.html#micro-finance">Salaire Brut Total
                         </a>
                     </li>
                     <li class="nav-item">
@@ -558,7 +558,6 @@
         </p>
         <p class="payroll-services">Veuillez consulter le bas de la page pour une explication des déductions et des exonérations.
             <br>Nous proposons le calcul de paie le plus rentable pour les particuliers et les entreprises.
-            Please contact us</a> so we can discuss further.
             Nous offrons des services de gestion de paie.<a href="#contact" class="scroll-link"> N'hésitez pas à nous contacter pour en discuter davantage.</a></p>
 
         
@@ -568,7 +567,7 @@
             <div class="input-group">
                 <label for="base-salary">Salaire de base
                 </label>
-                <input type="number" id="base-salary" min="0" step="100" value="6400">
+                <input type="number" id="base-salary" min="0" step="100" value="8000">
                 <div class="helper-text">Entrez votre salaire de base mensuel (votre salaire de base + ancienneté + indemnités donneront votre salaire brut)
                 </div>
             </div>
@@ -576,7 +575,7 @@
             <div class="input-group">
                 <label for="seniority-days">Indemnité d'ancienneté
                 </label>
-                <input type="number" id="seniority-days" min="0" value="900">
+                <input type="number" id="seniority-days" min="0" value="2200">
                 <div class="helper-text">Travailler plus de 2 ans dans une entreprise vous donne droit à cette indemnité
                 <br>Saisissez le nombre total de jours travaillés dans l'entreprise
             </div>
@@ -607,8 +606,8 @@
                 <label for="representation-type">Indemnité de représentation
                 </label>
                 <select id="representation-type">
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
+                    <option value="no">Non</option>
+                    <option value="yes" selected>Oui</option>
                 </select>
                 <div class="helper-text">10 % du salaire de base est le montant maximal exonéré d'impôt en tant qu'indemnité pour la haute direction (PDG, directeur, chef de département, etc.)
                 </div>
@@ -648,6 +647,19 @@
                         <option value="12.00">12,00%</option>
                     </select>
                 </div>
+            </div>
+
+            <!-- NEW CHILDREN TAX DEDUCTION FIELD -->
+            <div class="input-group">
+                <label for="children-count">Combien d'enfants avez-vous ?</label>
+                <select id="children-count">
+                    <option value="0">Pas d'enfants</option>
+                    <option value="1">1 enfant</option>
+                    <option value="2">2 enfants</option>
+                    <option value="3">3 enfants</option>
+                    <option value="more">4 enfants ou plus</option>
+                </select>
+                <div class="helper-text">Les enfants réduisent votre impôt IGR : 1 enfant = -30 MAD, 2 enfants = -60 MAD, 3 enfants = -90 MAD, 4+ enfants = -180 MAD</div>
             </div>
             
             <!-- Hidden Professional Expenses Rate field -->
@@ -701,11 +713,11 @@
                 <h3>prime d'ancienneté
                 </h3>
                 <p> Calculé en fonction des jours travaillés dans l'entreprise. Le taux augmente avec l'ancienneté :
-                <br>• 0-2 years: ans
-                <br>• 2-5 years: 5%
-                <br>• 5-12 years: 10%
-                <br>• 12-20 years: 15%
-                <br>• 20+ years: 20%</p>
+                <br>• 0-2 ans: 0%
+                <br>• 2-5 ans: 5%
+                <br>• 5-12 ans: 10%
+                <br>• 12-20 ans: 15%
+                <br>• 20+ ans: 20%</p>
             </div>
             
             <div class="explanation-item allowances">
@@ -720,13 +732,13 @@
             
             <div class="explanation-item deductions">
                 <h3>Déductions</h3>
-                <p>IGR (Impôt sur le revenu) : Taux d'imposition progressifs appliqués au salaire imposable (salaire de base moins les déductions).
+                <p>CNSS (Sécurité sociale) : 4,48 % du salaire de base (base + ancienneté, plafonné à 6 000 MAD)
                 </p>
                 <br>
                 <p>Assurance santé (AMO) : 2,26 % du salaire de base (hors indemnité d'ancienneté).
                 </p>
                 <br>
-                <p>CNSS (Sécurité sociale) : 4,48 % du salaire de base (base + ancienneté, plafonné à 6 000 MAD)
+                <p>IGR (Impôt sur le revenu) : Taux d'imposition progressifs appliqués au salaire imposable (salaire de base moins les déductions).
                 </p>
             </div>
             
@@ -738,8 +750,17 @@
                 <br>• 5,000 - 6,667 MAD: 20% (moins 833.33)
                 <br>• 6,667 - 8,333 MAD: 30% (moins 1,500)
                 <br>• 8,333 - 15,000 MAD: 34% (moins 1,833.33)
-                <br>• Au-dessus
-                15,000 MAD: 37% (moins 2,283.33)</p>
+                <br>• Au-dessus 15,000 MAD: 37% (moins 2,283.33)</p>
+            </div>
+
+            <div class="explanation-item">
+                <h3>Déduction fiscale pour enfants</h3>
+                <p>Les employés avec des enfants à charge bénéficient de réductions d'impôt IGR :
+                <br>• 1 enfant : réduction de 30 MAD
+                <br>• 2 enfants : réduction de 60 MAD
+                <br>• 3 enfants : réduction de 90 MAD
+                <br>• 4 enfants ou plus : réduction de 180 MAD (maximum)
+                <br>Note : L'impôt ne peut pas descendre en dessous de zéro - l'IGR minimum est de 0 MAD.</p>
             </div>
         </div>
     </div>
@@ -793,6 +814,7 @@
             const resultsBody = document.getElementById('results-body');
             const seniorityInfo = document.getElementById('seniority-info');
             const grossSalaryValue = document.getElementById('gross-salary-value');
+            const childrenCountSelect = document.getElementById('children-count');
             
             // Logique du dropdown CIMR
             const cimrYesNo = document.getElementById('cimr-yesno');
@@ -862,6 +884,7 @@
                 const travelValue = parseFloat(travelBonusInput.value) || 0;
                 const cimrActive = cimrYesNo.value === 'yes';
                 const cimrJsRate = cimrActive ? parseFloat(cimrJsPercent.value) : 0;
+                const childrenCount = childrenCountSelect.value;
                 
                 // Taux employeur CIMR correspondant
                 const cimrEmpRates = {
@@ -934,6 +957,23 @@
                 }
                 igrValue = Math.max(0, Math.round(igrValue * 100) / 100);
                 
+                // Apply children tax deduction ONLY if IGR > 0
+                let childrenDeduction = 0;
+                if (igrValue > 0) {
+                    if (childrenCount === '1') {
+                        childrenDeduction = 30;
+                    } else if (childrenCount === '2') {
+                        childrenDeduction = 60;
+                    } else if (childrenCount === '3') {
+                        childrenDeduction = 90;
+                    } else if (childrenCount === 'more') {
+                        childrenDeduction = 180;
+                    }
+                    
+                    // Apply deduction but ensure IGR doesn't go below 0
+                    igrValue = Math.max(0, igrValue - childrenDeduction);
+                }
+                
                 // Total employee deductions
                 const totalDeductionsValue = Math.round((cnssValue + healthInsuranceValue + igrValue + cimrJsValue) * 100) / 100;
                 const netPayableValue = Math.round((grossSalaryTotal - totalDeductionsValue) * 100) / 100;
@@ -949,6 +989,27 @@
                 
                 // Total cost of employee (net payable + employer deductions)
                 const totalCostOfEmployee = Math.round((netPayableValue + totalEmpDeductions) * 100) / 100;
+
+                // Display children deduction info if applicable
+                let childrenDeductionRow = '';
+                if (childrenDeduction > 0) {
+                    let childrenText = '';
+                    if (childrenCount === '1') {
+                        childrenText = '1 enfant';
+                    } else if (childrenCount === '2') {
+                        childrenText = '2 enfants';
+                    } else if (childrenCount === '3') {
+                        childrenText = '3 enfants';
+                    } else if (childrenCount === 'more') {
+                        childrenText = '4+ enfants';
+                    }
+                    
+                    childrenDeductionRow = `
+                        <tr class="result-row">
+                            <td>Déduction fiscale enfants (${childrenText})</td>
+                            <td class="currency">-${childrenDeduction.toFixed(2)}</td>
+                        </tr>`;
+                }
 
                 // Affichage des résultats
                 resultsBody.innerHTML = `
@@ -967,7 +1028,11 @@
                         <td>CIMR (Employé ${cimrActive ? cimrJsRate.toFixed(2).replace('.', ',') : '--'}%)</td>
                         <td class="currency">${cimrJsValue.toFixed(2)}</td>
                     </tr>
-                    
+                    <tr class="result-row">
+                        <td>Salaire Brut Imposable</td>
+                        <td class="currency">${taxableSalaryValue.toFixed(2)}</td>
+                    </tr>
+                    ${childrenDeductionRow}
                     <tr class="result-row">
                         <td>Impôt Général sur le Revenu (IGR)</td>
                         <td class="currency">${igrValue.toFixed(2)}</td>
@@ -1022,10 +1087,11 @@
                 const mealValue = parseFloat(mealAllowanceInput.value) || 0;
                 const repValue = parseFloat(representationAllowanceInput.value) || 0;
                 const travelValue = parseFloat(travelBonusInput.value) || 0;
+                const childrenCount = childrenCountSelect.value;
                 
                 // Get transport allowance based on type
                 let transportValue = 0; // Default none
-                let transportTypeText = "None";
+                let transportTypeText = "Aucun";
                 
                 if (transportTypeSelect.value === 'urban') {
                     transportValue = 500;
@@ -1093,6 +1159,22 @@
                 }
                 
                 igrValue = Math.max(0, Math.round(igrValue * 100) / 100);
+
+                // Apply children tax deduction
+                let childrenDeduction = 0;
+                if (igrValue > 0) {
+                    if (childrenCount === '1') {
+                        childrenDeduction = 30;
+                    } else if (childrenCount === '2') {
+                        childrenDeduction = 60;
+                    } else if (childrenCount === '3') {
+                        childrenDeduction = 90;
+                    } else if (childrenCount === 'more') {
+                        childrenDeduction = 180;
+                    }
+                    
+                    igrValue = Math.max(0, igrValue - childrenDeduction);
+                }
                 
                 // Calculate total deductions
                 const totalDeductionsValue = Math.round((cnssValue + healthInsuranceValue + igrValue) * 100) / 100;
@@ -1104,23 +1186,37 @@
                 const now = new Date();
                 const dateStr = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
                 
-                // Create CSV content - removed Professional Expenses from CSV
+                // Create CSV content
                 let csvContent = "data:text/csv;charset=utf-8,";
-                csvContent += "CNSS Salary Calculation Results\n";
+                csvContent += "Résultats du calcul de salaire CNSS\n";
                 csvContent += `Date,${dateStr}\n\n`;
-                csvContent += "Composantes du salaire,Amount (MAD)\n";
-                csvContent += `Base Salary,${baseValue.toFixed(2)}\n`;
-                csvContent += `Seniority Bonus (${seniorityRatePercent}%),${seniorityBonusValue.toFixed(2)}\n`;
-                csvContent += `Salary Base (Base + Seniority),${salaryBaseValue.toFixed(2)}\n`;
-                csvContent += `Meal Allowance,${mealValue.toFixed(2)}\n`;
-                csvContent += `Transport Allowance (${transportTypeText}),${transportValue.toFixed(2)}\n`;
+                csvContent += "Composantes du salaire,Montant (MAD)\n";
+                csvContent += `Salaire de base,${baseValue.toFixed(2)}\n`;
+                csvContent += `Prime d'ancienneté (${seniorityRatePercent}%),${seniorityBonusValue.toFixed(2)}\n`;
+                csvContent += `Salaire de base (Base + Ancienneté),${salaryBaseValue.toFixed(2)}\n`;
+                csvContent += `Indemnité de panier,${mealValue.toFixed(2)}\n`;
+                csvContent += `Indemnité de transport (${transportTypeText}),${transportValue.toFixed(2)}\n`;
                 csvContent += `Indemnité de représentation,${repValue.toFixed(2)}\n`;
-                csvContent += `Travel Bonus,${travelValue.toFixed(2)}\n`;
+                csvContent += `Prime de déplacement,${travelValue.toFixed(2)}\n`;
                 csvContent += `Salaire Brut Total,${grossSalaryTotal.toFixed(2)}\n\n`;
                 
                 csvContent += "Déductions,Montant (MAD)\n";
                 csvContent += `Contribution CNSS (Employé 4,48%),${cnssValue.toFixed(2)}\n`;
                 csvContent += `Assurance Santé (Employé 2,26%),${healthInsuranceValue.toFixed(2)}\n`;
+                csvContent += `Salaire Brut Imposable,${taxableSalaryValue.toFixed(2)}\n`;
+                if (childrenDeduction > 0) {
+                    let childrenText = '';
+                    if (childrenCount === '1') {
+                        childrenText = '1 enfant';
+                    } else if (childrenCount === '2') {
+                        childrenText = '2 enfants';
+                    } else if (childrenCount === '3') {
+                        childrenText = '3 enfants';
+                    } else if (childrenCount === 'more') {
+                        childrenText = '4+ enfants';
+                    }
+                    csvContent += `Déduction fiscale enfants (${childrenText}),${childrenDeduction.toFixed(2)}\n`;
+                }
                 csvContent += `Impôt Général sur le Revenu (IGR),${igrValue.toFixed(2)}\n`;
                 csvContent += `Total des déductions,${totalDeductionsValue.toFixed(2)}\n`;
                 csvContent += `Net à payer,${netPayableValue.toFixed(2)}\n`;
@@ -1129,7 +1225,7 @@
                 const encodedUri = encodeURI(csvContent);
                 const link = document.createElement("a");
                 link.setAttribute("href", encodedUri);
-                link.setAttribute("download", `CNSS_Calculation_${dateStr}.csv`);
+                link.setAttribute("download", `Calcul_CNSS_${dateStr}.csv`);
                 document.body.appendChild(link);
                 
                 // Trigger download
