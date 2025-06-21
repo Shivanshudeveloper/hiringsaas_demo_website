@@ -606,17 +606,19 @@
                 </div>
             </div>
 
-            <!-- NEW CHILDREN TAX DEDUCTION FIELD -->
+            <!-- NEW DEPENDENTS TAX DEDUCTION FIELD -->
             <div class="input-group">
-                <label for="children-count">How many children do you have?</label>
+                <label for="children-count">How many dependents do you have?</label>
                 <select id="children-count">
-                    <option value="0">No children</option>
-                    <option value="1">1 child</option>
-                    <option value="2">2 children</option>
-                    <option value="3">3 children</option>
-                    <option value="more">4 or more children</option>
+                    <option value="0">0 dependents</option>
+                    <option value="1">1 dependent</option>
+                    <option value="2">2 dependents</option>
+                    <option value="3">3 dependents</option>
+                    <option value="4">4 dependents</option>
+                    <option value="5">5 dependents</option>
+                    <option value="more">6 or more dependents</option>
                 </select>
-                <div class="helper-text">Children reduce your IGR tax: 1 child = -30 MAD, 2 children = -60 MAD, 3 children = -90 MAD, 4+ children = -180 MAD</div>
+                <div class="helper-text">Dependents reduce your IGR tax by 41.67 MAD each (max 6 = 250 MAD). Includes children under 25 or in full-time study + spouse if married.</div>
             </div>
             
             <!-- Hidden Professional Expenses Rate field -->
@@ -696,12 +698,11 @@
             </div>
 
             <div class="explanation-item">
-                <h3>Children Tax Deduction</h3>
-                <p>Employees with dependent children receive IGR tax reductions:
-                <br>• 1 child: 30 MAD reduction
-                <br>• 2 children: 60 MAD reduction
-                <br>• 3 children: 90 MAD reduction
-                <br>• 4 or more children: 180 MAD reduction (maximum)
+                <h3>Dependents Tax Deduction</h3>
+                <p>Employees with qualified dependents receive IGR tax reductions of 41.67 MAD per dependent (maximum 6 dependents = 250 MAD):
+                <br>• <strong>Children:</strong> Qualify until age 25 OR while in full-time study
+                <br>• <strong>Spouse:</strong> Counts as 1 dependent if married and spouse is alive
+                <br>• <strong>Examples:</strong> 3 dependents = 125 MAD reduction, 6+ dependents = 250 MAD reduction (maximum)
                 <br>Note: Tax cannot go below zero - minimum IGR is 0 MAD.</p>
             </div>
         </div>
@@ -897,21 +898,25 @@
                 }
                 igrValue = Math.max(0, Math.round(igrValue * 100) / 100);
                 
-                // Apply children tax deduction ONLY if IGR > 0
-                let childrenDeduction = 0;
+                // Apply dependents tax deduction ONLY if IGR > 0
+                let dependentsDeduction = 0;
                 if (igrValue > 0) {
                     if (childrenCount === '1') {
-                        childrenDeduction = 30;
+                        dependentsDeduction = 41.67;
                     } else if (childrenCount === '2') {
-                        childrenDeduction = 60;
+                        dependentsDeduction = 83.34;
                     } else if (childrenCount === '3') {
-                        childrenDeduction = 90;
+                        dependentsDeduction = 125.01;
+                    } else if (childrenCount === '4') {
+                        dependentsDeduction = 166.68;
+                    } else if (childrenCount === '5') {
+                        dependentsDeduction = 208.35;
                     } else if (childrenCount === 'more') {
-                        childrenDeduction = 180;
+                        dependentsDeduction = 250;
                     }
                     
                     // Apply deduction but ensure IGR doesn't go below 0
-                    igrValue = Math.max(0, igrValue - childrenDeduction);
+                    igrValue = Math.max(0, igrValue - dependentsDeduction);
                 }
                 
                 // Total employee deductions
@@ -930,13 +935,13 @@
                 // Total cost of employee (net payable + employer deductions)
                 const totalCostOfEmployee = Math.round((netPayableValue + totalEmpDeductions) * 100) / 100;
 
-                // Display children deduction info if applicable
-                let childrenDeductionRow = '';
-                if (childrenDeduction > 0) {
-                    childrenDeductionRow = `
+                // Display dependents deduction info if applicable
+                let dependentsDeductionRow = '';
+                if (dependentsDeduction > 0) {
+                    dependentsDeductionRow = `
                         <tr class="result-row">
-                            <td>Children Tax Deduction (${childrenCount === 'more' ? '4+' : childrenCount} ${childrenCount === '1' ? 'child' : 'children'})</td>
-                            <td class="currency">-${childrenDeduction.toFixed(2)}</td>
+                            <td>Tax Deduction for Dependents (${childrenCount === 'more' ? '6+' : childrenCount} ${childrenCount === '1' ? 'dependent' : 'dependents'})</td>
+                            <td class="currency">-${dependentsDeduction.toFixed(2)}</td>
                         </tr>`;
                 }
 
@@ -961,7 +966,7 @@
                         <td>Gross Taxable Salary</td>
                         <td class="currency">${taxableSalaryValue.toFixed(2)}</td>
                     </tr>
-                    ${childrenDeductionRow}
+                    ${dependentsDeductionRow}
                     <tr class="result-row">
                         <td>IGR Income Tax</td>
                         <td class="currency">${igrValue.toFixed(2)}</td>
@@ -1089,20 +1094,24 @@
                 
                 igrValue = Math.max(0, Math.round(igrValue * 100) / 100);
 
-                // Apply children tax deduction
-                let childrenDeduction = 0;
+                // Apply dependents tax deduction
+                let dependentsDeduction = 0;
                 if (igrValue > 0) {
                     if (childrenCount === '1') {
-                        childrenDeduction = 30;
+                        dependentsDeduction = 41.67;
                     } else if (childrenCount === '2') {
-                        childrenDeduction = 60;
+                        dependentsDeduction = 83.34;
                     } else if (childrenCount === '3') {
-                        childrenDeduction = 90;
+                        dependentsDeduction = 125.01;
+                    } else if (childrenCount === '4') {
+                        dependentsDeduction = 166.68;
+                    } else if (childrenCount === '5') {
+                        dependentsDeduction = 208.35;
                     } else if (childrenCount === 'more') {
-                        childrenDeduction = 180;
+                        dependentsDeduction = 250;
                     }
                     
-                    igrValue = Math.max(0, igrValue - childrenDeduction);
+                    igrValue = Math.max(0, igrValue - dependentsDeduction);
                 }
                 
                 // Calculate total deductions
@@ -1133,8 +1142,8 @@
                 csvContent += `CNSS Contribution (Employee 4.48%),${cnssValue.toFixed(2)}\n`;
                 csvContent += `Health Insurance (Employee 2.26%),${healthInsuranceValue.toFixed(2)}\n`;
                 csvContent += `Gross Taxable Salary,${taxableSalaryValue.toFixed(2)}\n`;
-                if (childrenDeduction > 0) {
-                    csvContent += `Children Tax Deduction (${childrenCount === 'more' ? '4+' : childrenCount} ${childrenCount === '1' ? 'child' : 'children'}),${childrenDeduction.toFixed(2)}\n`;
+                if (dependentsDeduction > 0) {
+                    csvContent += `Tax Deduction for Dependents (${childrenCount === 'more' ? '6+' : childrenCount} ${childrenCount === '1' ? 'dependent' : 'dependents'}),${dependentsDeduction.toFixed(2)}\n`;
                 }
                 csvContent += `IGR Income Tax,${igrValue.toFixed(2)}\n`;
                 csvContent += `Total Deductions,${totalDeductionsValue.toFixed(2)}\n`;

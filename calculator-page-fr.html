@@ -649,17 +649,19 @@
                 </div>
             </div>
 
-            <!-- NEW CHILDREN TAX DEDUCTION FIELD -->
+            <!-- NEW DEPENDENTS TAX DEDUCTION FIELD -->
             <div class="input-group">
-                <label for="children-count">Combien d'enfants avez-vous ?</label>
+                <label for="children-count">Combien de personnes à charge avez-vous ?</label>
                 <select id="children-count">
-                    <option value="0">Pas d'enfants</option>
-                    <option value="1">1 enfant</option>
-                    <option value="2">2 enfants</option>
-                    <option value="3">3 enfants</option>
-                    <option value="more">4 enfants ou plus</option>
+                    <option value="0">0 personne à charge</option>
+                    <option value="1">1 personne à charge</option>
+                    <option value="2">2 personnes à charge</option>
+                    <option value="3">3 personnes à charge</option>
+                    <option value="4">4 personnes à charge</option>
+                    <option value="5">5 personnes à charge</option>
+                    <option value="more">6 personnes à charge ou plus</option>
                 </select>
-                <div class="helper-text">Les enfants réduisent votre impôt IGR : 1 enfant = -30 MAD, 2 enfants = -60 MAD, 3 enfants = -90 MAD, 4+ enfants = -180 MAD</div>
+                <div class="helper-text">Les personnes à charge réduisent votre impôt IGR de 41,67 MAD chacune (max 6 = 250 MAD). Inclut enfants de moins de 25 ans ou aux études + conjoint(e) si marié(e).</div>
             </div>
             
             <!-- Hidden Professional Expenses Rate field -->
@@ -754,12 +756,11 @@
             </div>
 
             <div class="explanation-item">
-                <h3>Déduction fiscale pour enfants</h3>
-                <p>Les employés avec des enfants à charge bénéficient de réductions d'impôt IGR :
-                <br>• 1 enfant : réduction de 30 MAD
-                <br>• 2 enfants : réduction de 60 MAD
-                <br>• 3 enfants : réduction de 90 MAD
-                <br>• 4 enfants ou plus : réduction de 180 MAD (maximum)
+                <h3>Déduction fiscale pour personnes à charge</h3>
+                <p>Les employés avec des personnes à charge qualifiées bénéficient de réductions d'impôt IGR de 41,67 MAD par personne à charge (maximum 6 personnes à charge = 250 MAD) :
+                <br>• <strong>Enfants :</strong> Qualifiés jusqu'à 25 ans OU pendant les études à temps plein
+                <br>• <strong>Conjoint(e) :</strong> Compte comme 1 personne à charge si marié(e) et conjoint(e) vivant(e)
+                <br>• <strong>Exemples :</strong> 3 personnes à charge = 125 MAD de réduction, 6+ personnes à charge = 250 MAD de réduction (maximum)
                 <br>Note : L'impôt ne peut pas descendre en dessous de zéro - l'IGR minimum est de 0 MAD.</p>
             </div>
         </div>
@@ -957,21 +958,25 @@
                 }
                 igrValue = Math.max(0, Math.round(igrValue * 100) / 100);
                 
-                // Apply children tax deduction ONLY if IGR > 0
-                let childrenDeduction = 0;
+                // Apply dependents tax deduction ONLY if IGR > 0
+                let dependentsDeduction = 0;
                 if (igrValue > 0) {
                     if (childrenCount === '1') {
-                        childrenDeduction = 30;
+                        dependentsDeduction = 41.67;
                     } else if (childrenCount === '2') {
-                        childrenDeduction = 60;
+                        dependentsDeduction = 83.34;
                     } else if (childrenCount === '3') {
-                        childrenDeduction = 90;
+                        dependentsDeduction = 125.01;
+                    } else if (childrenCount === '4') {
+                        dependentsDeduction = 166.68;
+                    } else if (childrenCount === '5') {
+                        dependentsDeduction = 208.35;
                     } else if (childrenCount === 'more') {
-                        childrenDeduction = 180;
+                        dependentsDeduction = 250;
                     }
                     
                     // Apply deduction but ensure IGR doesn't go below 0
-                    igrValue = Math.max(0, igrValue - childrenDeduction);
+                    igrValue = Math.max(0, igrValue - dependentsDeduction);
                 }
                 
                 // Total employee deductions
@@ -990,24 +995,28 @@
                 // Total cost of employee (net payable + employer deductions)
                 const totalCostOfEmployee = Math.round((netPayableValue + totalEmpDeductions) * 100) / 100;
 
-                // Display children deduction info if applicable
-                let childrenDeductionRow = '';
-                if (childrenDeduction > 0) {
-                    let childrenText = '';
+                // Display dependents deduction info if applicable
+                let dependentsDeductionRow = '';
+                if (dependentsDeduction > 0) {
+                    let dependentsText = '';
                     if (childrenCount === '1') {
-                        childrenText = '1 enfant';
+                        dependentsText = '1 personne à charge';
                     } else if (childrenCount === '2') {
-                        childrenText = '2 enfants';
+                        dependentsText = '2 personnes à charge';
                     } else if (childrenCount === '3') {
-                        childrenText = '3 enfants';
+                        dependentsText = '3 personnes à charge';
+                    } else if (childrenCount === '4') {
+                        dependentsText = '4 personnes à charge';
+                    } else if (childrenCount === '5') {
+                        dependentsText = '5 personnes à charge';
                     } else if (childrenCount === 'more') {
-                        childrenText = '4+ enfants';
+                        dependentsText = '6+ personnes à charge';
                     }
                     
-                    childrenDeductionRow = `
+                    dependentsDeductionRow = `
                         <tr class="result-row">
-                            <td>Déduction fiscale enfants (${childrenText})</td>
-                            <td class="currency">-${childrenDeduction.toFixed(2)}</td>
+                            <td>Déduction fiscale personnes à charge (${dependentsText})</td>
+                            <td class="currency">-${dependentsDeduction.toFixed(2)}</td>
                         </tr>`;
                 }
 
@@ -1032,7 +1041,7 @@
                         <td>Salaire Brut Imposable</td>
                         <td class="currency">${taxableSalaryValue.toFixed(2)}</td>
                     </tr>
-                    ${childrenDeductionRow}
+                    ${dependentsDeductionRow}
                     <tr class="result-row">
                         <td>Impôt Général sur le Revenu (IGR)</td>
                         <td class="currency">${igrValue.toFixed(2)}</td>
@@ -1160,20 +1169,24 @@
                 
                 igrValue = Math.max(0, Math.round(igrValue * 100) / 100);
 
-                // Apply children tax deduction
-                let childrenDeduction = 0;
+                // Apply dependents tax deduction
+                let dependentsDeduction = 0;
                 if (igrValue > 0) {
                     if (childrenCount === '1') {
-                        childrenDeduction = 30;
+                        dependentsDeduction = 41.67;
                     } else if (childrenCount === '2') {
-                        childrenDeduction = 60;
+                        dependentsDeduction = 83.34;
                     } else if (childrenCount === '3') {
-                        childrenDeduction = 90;
+                        dependentsDeduction = 125.01;
+                    } else if (childrenCount === '4') {
+                        dependentsDeduction = 166.68;
+                    } else if (childrenCount === '5') {
+                        dependentsDeduction = 208.35;
                     } else if (childrenCount === 'more') {
-                        childrenDeduction = 180;
+                        dependentsDeduction = 250;
                     }
                     
-                    igrValue = Math.max(0, igrValue - childrenDeduction);
+                    igrValue = Math.max(0, igrValue - dependentsDeduction);
                 }
                 
                 // Calculate total deductions
@@ -1204,18 +1217,22 @@
                 csvContent += `Contribution CNSS (Employé 4,48%),${cnssValue.toFixed(2)}\n`;
                 csvContent += `Assurance Santé (Employé 2,26%),${healthInsuranceValue.toFixed(2)}\n`;
                 csvContent += `Salaire Brut Imposable,${taxableSalaryValue.toFixed(2)}\n`;
-                if (childrenDeduction > 0) {
-                    let childrenText = '';
+                if (dependentsDeduction > 0) {
+                    let dependentsText = '';
                     if (childrenCount === '1') {
-                        childrenText = '1 enfant';
+                        dependentsText = '1 personne à charge';
                     } else if (childrenCount === '2') {
-                        childrenText = '2 enfants';
+                        dependentsText = '2 personnes à charge';
                     } else if (childrenCount === '3') {
-                        childrenText = '3 enfants';
+                        dependentsText = '3 personnes à charge';
+                    } else if (childrenCount === '4') {
+                        dependentsText = '4 personnes à charge';
+                    } else if (childrenCount === '5') {
+                        dependentsText = '5 personnes à charge';
                     } else if (childrenCount === 'more') {
-                        childrenText = '4+ enfants';
+                        dependentsText = '6+ personnes à charge';
                     }
-                    csvContent += `Déduction fiscale enfants (${childrenText}),${childrenDeduction.toFixed(2)}\n`;
+                    csvContent += `Déduction fiscale personnes à charge (${dependentsText}),${dependentsDeduction.toFixed(2)}\n`;
                 }
                 csvContent += `Impôt Général sur le Revenu (IGR),${igrValue.toFixed(2)}\n`;
                 csvContent += `Total des déductions,${totalDeductionsValue.toFixed(2)}\n`;
