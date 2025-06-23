@@ -756,12 +756,11 @@
             </div>
 
             <div class="explanation-item">
-                <h3>Déduction fiscale pour personnes à charge</h3>
+                <h3>Abattement fiscal IGR pour personnes à charge</h3>
                 <p>Les employés avec des personnes à charge qualifiées bénéficient de réductions d'impôt IGR de 41,67 MAD par personne à charge (maximum 6 personnes à charge = 250 MAD) :
                 <br>• <strong>Enfants :</strong> Qualifiés jusqu'à 25 ans OU pendant les études à temps plein
                 <br>• <strong>Conjoint(e) :</strong> Compte comme 1 personne à charge si marié(e) et conjoint(e) vivant(e)
-                <br>• <strong>Exemples :</strong> 3 personnes à charge = 125 MAD de réduction, 6+ personnes à charge = 250 MAD de réduction (maximum)
-                <br>Note : L'impôt ne peut pas descendre en dessous de zéro - l'IGR minimum est de 0 MAD.</p>
+                <br>• <strong>Exemples :</strong> 3 personnes à charge = 125 MAD de réduction, 6+ personnes à charge = 250 MAD de réduction (maximum)</p>
             </div>
         </div>
     </div>
@@ -1000,23 +999,23 @@
                 if (dependentsDeduction > 0) {
                     let dependentsText = '';
                     if (childrenCount === '1') {
-                        dependentsText = '1 personne à charge';
+                        dependentsText = '1 Personne à Charge';
                     } else if (childrenCount === '2') {
-                        dependentsText = '2 personnes à charge';
+                        dependentsText = '2 Personnes à Charge';
                     } else if (childrenCount === '3') {
-                        dependentsText = '3 personnes à charge';
+                        dependentsText = '3 Personnes à Charge';
                     } else if (childrenCount === '4') {
-                        dependentsText = '4 personnes à charge';
+                        dependentsText = '4 Personnes à Charge';
                     } else if (childrenCount === '5') {
-                        dependentsText = '5 personnes à charge';
+                        dependentsText = '5 Personnes à Charge';
                     } else if (childrenCount === 'more') {
-                        dependentsText = '6+ personnes à charge';
+                        dependentsText = '6+ Personnes à Charge';
                     }
                     
                     dependentsDeductionRow = `
                         <tr class="result-row">
-                            <td>Déduction fiscale personnes à charge (${dependentsText})</td>
-                            <td class="currency">-${dependentsDeduction.toFixed(2)}</td>
+                            <td>Abattement Fiscal IGR pour ${dependentsText}</td>
+                            <td class="currency">${dependentsDeduction.toFixed(2)}</td>
                         </tr>`;
                 }
 
@@ -1220,19 +1219,19 @@
                 if (dependentsDeduction > 0) {
                     let dependentsText = '';
                     if (childrenCount === '1') {
-                        dependentsText = '1 personne à charge';
+                        dependentsText = '1 Personne à Charge';
                     } else if (childrenCount === '2') {
-                        dependentsText = '2 personnes à charge';
+                        dependentsText = '2 Personnes à Charge';
                     } else if (childrenCount === '3') {
-                        dependentsText = '3 personnes à charge';
+                        dependentsText = '3 Personnes à Charge';
                     } else if (childrenCount === '4') {
-                        dependentsText = '4 personnes à charge';
+                        dependentsText = '4 Personnes à Charge';
                     } else if (childrenCount === '5') {
-                        dependentsText = '5 personnes à charge';
+                        dependentsText = '5 Personnes à Charge';
                     } else if (childrenCount === 'more') {
-                        dependentsText = '6+ personnes à charge';
+                        dependentsText = '6+ Personnes à Charge';
                     }
-                    csvContent += `Déduction fiscale personnes à charge (${dependentsText}),${dependentsDeduction.toFixed(2)}\n`;
+                    csvContent += `Abattement Fiscal IGR pour ${dependentsText},${dependentsDeduction.toFixed(2)}\n`;
                 }
                 csvContent += `Impôt Général sur le Revenu (IGR),${igrValue.toFixed(2)}\n`;
                 csvContent += `Total des déductions,${totalDeductionsValue.toFixed(2)}\n`;

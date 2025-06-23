@@ -698,12 +698,11 @@
             </div>
 
             <div class="explanation-item">
-                <h3>Dependents Tax Deduction</h3>
+                <h3>IGR Tax Allowance for Dependents</h3>
                 <p>Employees with qualified dependents receive IGR tax reductions of 41.67 MAD per dependent (maximum 6 dependents = 250 MAD):
                 <br>• <strong>Children:</strong> Qualify until age 25 OR while in full-time study
                 <br>• <strong>Spouse:</strong> Counts as 1 dependent if married and spouse is alive
-                <br>• <strong>Examples:</strong> 3 dependents = 125 MAD reduction, 6+ dependents = 250 MAD reduction (maximum)
-                <br>Note: Tax cannot go below zero - minimum IGR is 0 MAD.</p>
+                <br>• <strong>Examples:</strong> 3 dependents = 125 MAD reduction, 6+ dependents = 250 MAD reduction (maximum)</p>
             </div>
         </div>
     </div>
@@ -940,8 +939,8 @@
                 if (dependentsDeduction > 0) {
                     dependentsDeductionRow = `
                         <tr class="result-row">
-                            <td>Tax Deduction for Dependents (${childrenCount === 'more' ? '6+' : childrenCount} ${childrenCount === '1' ? 'dependent' : 'dependents'})</td>
-                            <td class="currency">-${dependentsDeduction.toFixed(2)}</td>
+                            <td>IGR Tax Allowance for ${childrenCount === 'more' ? '6+' : childrenCount} ${childrenCount === '1' ? 'Dependent' : 'Dependents'}</td>
+                            <td class="currency">${dependentsDeduction.toFixed(2)}</td>
                         </tr>`;
                 }
 
@@ -1143,7 +1142,7 @@
                 csvContent += `Health Insurance (Employee 2.26%),${healthInsuranceValue.toFixed(2)}\n`;
                 csvContent += `Gross Taxable Salary,${taxableSalaryValue.toFixed(2)}\n`;
                 if (dependentsDeduction > 0) {
-                    csvContent += `Tax Deduction for Dependents (${childrenCount === 'more' ? '6+' : childrenCount} ${childrenCount === '1' ? 'dependent' : 'dependents'}),${dependentsDeduction.toFixed(2)}\n`;
+                    csvContent += `IGR Tax Allowance for ${childrenCount === 'more' ? '6+' : childrenCount} ${childrenCount === '1' ? 'Dependent' : 'Dependents'},${dependentsDeduction.toFixed(2)}\n`;
                 }
                 csvContent += `IGR Income Tax,${igrValue.toFixed(2)}\n`;
                 csvContent += `Total Deductions,${totalDeductionsValue.toFixed(2)}\n`;
